@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_new"
+        android:icon="@drawable/newb"
+        android:title="New" />
+    <item
+        android:id="@+id/action_open"
+        android:icon="@drawable/open"
+        android:title="Open"/>
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/save"
+        android:title="Save" />
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/edit"
+        android:title="Edit" />
+    <item
+        android:id="@+id/action_close"
+        android:icon="@drawable/backspace"
+        android:title="Cancel" />
+</menu>
