@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             FileOutputStream out = new FileOutputStream(file);
-            Drawable drawable = getResources().getDrawable(R.drawable.design1);
+            Drawable drawable = getResources().getDrawable(R.drawable.test_image);
             Bitmap finalBitmap = ((BitmapDrawable)drawable).getBitmap();
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -42,8 +43,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
-        final Bitmap bitmap = BitmapFactory.decodeFile(dir + "/" + galleryList.get(i).getImage_file(), options);
-        viewHolder.img.setImageBitmap(bitmap);
+//        final Bitmap bitmap = BitmapFactory.decodeFile(dir + "/" + galleryList.get(i).getImage_file(), options);
+//        try {
+//            final Bitmap bitmap = getThumbnail(context.getContentResolver(), dir + "/" + galleryList.get(i).getImage_file());
+//            viewHolder.img.setImageBitmap(bitmap);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        final int THUMBSIZE = 300;
+
+        Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + galleryList.get(i).getImage_file()), THUMBSIZE, THUMBSIZE);
+        viewHolder.img.setImageBitmap(ThumbImage);
 
         viewHolder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +89,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         if (ca != null && ca.moveToFirst()) {
             int id = ca.getInt(ca.getColumnIndex(MediaStore.MediaColumns._ID));
             ca.close();
-            return MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.MICRO_KIND, null );
+            return MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.MINI_KIND, null );
         }
 
         ca.close();
