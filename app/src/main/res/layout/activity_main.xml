@@ -21,6 +21,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/imagegallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|top"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/fab_menu"
+        app:miniFabBackgroundTint="@android:color/white"
+        app:miniFabDrawableTint="?attr/colorPrimary"
+        app:miniFabTitleTextColor="?attr/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>

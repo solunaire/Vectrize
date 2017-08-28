@@ -5,21 +5,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/welcome"/>
 
-    <io.github.yavski.fabspeeddial.FabSpeedDial
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:fabGravity="bottom_end"
-        app:fabMenu="@menu/fab_menu"
-        app:miniFabBackgroundTint="@android:color/white"
-        app:miniFabDrawableTint="?attr/colorPrimary"
-        app:miniFabTitleTextColor="?attr/colorPrimary" />
+
 
 </FrameLayout>
