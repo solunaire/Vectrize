@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < galleryList.size(); i++) {
                             ImageModel im = new ImageModel();
                             im.setName(galleryList.get(i).getImage_title());
-                            im.setUrl(dir + galleryList.get(i).getImage_file());
+                            im.setUrl(dir + "/" + galleryList.get(i).getImage_file());
                             data.add(im);
                         }
                         intent.putParcelableArrayListExtra("data", data);
