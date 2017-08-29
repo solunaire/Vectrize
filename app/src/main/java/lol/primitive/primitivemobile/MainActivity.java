@@ -2,6 +2,7 @@ package lol.primitive.primitivemobile;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -68,11 +69,29 @@ public class MainActivity extends AppCompatActivity {
         //Image Gallery Initialization
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),2);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         ArrayList<CreateList> createLists = prepareData();
+        final ArrayList<CreateList> galleryList = createLists;
         MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                        ArrayList<ImageModel> data = new ArrayList<>();
+                        for (int i = 0; i < galleryList.size(); i++) {
+                            ImageModel im = new ImageModel();
+                            im.setName(galleryList.get(i).getImage_title());
+                            im.setUrl(dir + galleryList.get(i).getImage_file());
+                            data.add(im);
+                        }
+                        intent.putParcelableArrayListExtra("data", data);
+                        intent.putExtra("pos", position);
+                        startActivity(intent);
+                    }
+                }));
 
         //Toolbar Initialization
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGImageView;
+import com.caverock.androidsvg.SVGParser;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -43,6 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
+        //TEST CODE, PLEASE IGNORE (old methods of getting thumbnails)
 //        final Bitmap bitmap = BitmapFactory.decodeFile(dir + "/" + galleryList.get(i).getImage_file(), options);
 //        try {
 //            final Bitmap bitmap = getThumbnail(context.getContentResolver(), dir + "/" + galleryList.get(i).getImage_file());
@@ -50,11 +58,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
-        final int THUMBSIZE = 300;
-
-        Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + galleryList.get(i).getImage_file()), THUMBSIZE, THUMBSIZE);
-        viewHolder.img.setImageBitmap(ThumbImage);
+        String fileName = galleryList.get(i).getImage_file();
+        if(getFileExtension(fileName).equals("svg")) {
+            try {
+                //TODO: SVG IMPLEMENTATION
+                File file = new File(dir+"/"+fileName);
+                FileInputStream fileInputStream = new FileInputStream(file);
+//                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            final int THUMBSIZE = 300;
+            Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + fileName), THUMBSIZE, THUMBSIZE);
+            viewHolder.img.setImageBitmap(ThumbImage);
+        }
 
         viewHolder.img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,5 +113,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         ca.close();
         return null;
 
+    }
+
+    //Returns File Extension
+    public static String getFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
     }
 }
