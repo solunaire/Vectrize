@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             im.setUrl(dir + "/" + galleryList.get(i).getImage_file());
                             data.add(im);
                         }
+
                         intent.putParcelableArrayListExtra("data", data);
                         intent.putExtra("pos", position);
                         startActivity(intent);

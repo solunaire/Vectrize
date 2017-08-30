@@ -1,5 +1,10 @@
 package lol.primitive.primitivemobile;
 
+/*Adapted from
+https://github.com/Suleiman19/Gallery/blob/master/app/
+src/main/java/com/grafixartist/gallery/DetailActivity.java
+ */
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,6 +44,8 @@ public class DetailActivity extends AppCompatActivity {
     public ArrayList<ImageModel> data = new ArrayList<>();
     int pos;
 
+    Toolbar toolbar;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -48,7 +56,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         data = getIntent().getParcelableArrayListExtra("data");
@@ -59,10 +66,12 @@ public class DetailActivity extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), data);
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setPageTransformer(true, new DepthPageTransformer());
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setCurrentItem(pos);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -83,6 +92,7 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 
@@ -109,54 +119,6 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        String name, url;
-        int pos;
-        private static final String ARG_SECTION_NUMBER = "section_number";
-        private static final String ARG_IMG_TITLE = "image_title";
-        private static final String ARG_IMG_URL = "image_url";
-
-        @Override
-        public void setArguments(Bundle args) {
-            super.setArguments(args);
-            this.pos = args.getInt(ARG_SECTION_NUMBER);
-            this.name = args.getString(ARG_IMG_TITLE);
-            this.url = args.getString(ARG_IMG_URL);
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber, String name, String url) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            args.putString(ARG_IMG_TITLE, name);
-            args.putString(ARG_IMG_URL, url);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_detail2, container, false);
-
-            final ImageView imageView = (ImageView) rootView.findViewById(R.id.detail_image);
-
-            Glide.with(getActivity()).load(url).thumbnail(0.1f).into(imageView);
-
-            return rootView;
-        }
-    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -187,5 +149,65 @@ public class DetailActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return data.get(position).getName();
         }
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+
+        String name, url;
+        int pos;
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        private static final String ARG_IMG_TITLE = "image_title";
+        private static final String ARG_IMG_URL = "image_url";
+
+        @Override
+        public void setArguments(Bundle args) {
+            super.setArguments(args);
+            this.pos = args.getInt(ARG_SECTION_NUMBER);
+            this.name = args.getString(ARG_IMG_TITLE);
+            this.url = args.getString(ARG_IMG_URL);
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber, String name, String url) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putString(ARG_IMG_TITLE, name);
+            args.putString(ARG_IMG_URL, url);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_detail2, container, false);
+
+            final ImageView imageView = (ImageView) rootView.findViewById(R.id.detail_image);
+
+            Glide.with(getActivity()).load(url).thumbnail(0.1f).into(imageView);
+
+            return rootView;
+        }
+
     }
 }

@@ -1,6 +1,5 @@
 package lol.primitive.primitivemobile;
 
-
 public class CreateList {
 
     private String image_title;
