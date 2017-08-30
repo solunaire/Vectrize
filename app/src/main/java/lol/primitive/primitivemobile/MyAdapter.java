@@ -2,14 +2,12 @@
 
 package lol.primitive.primitivemobile;
 
-import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.caverock.androidsvg.SVG;
-import com.caverock.androidsvg.SVGImageView;
-import com.caverock.androidsvg.SVGParser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,16 +44,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
-        //TEST CODE, PLEASE IGNORE (old methods of getting thumbnails)
-//        final Bitmap bitmap = BitmapFactory.decodeFile(dir + "/" + galleryList.get(i).getImage_file(), options);
-//        try {
-//            final Bitmap bitmap = getThumbnail(context.getContentResolver(), dir + "/" + galleryList.get(i).getImage_file());
-//            viewHolder.img.setImageBitmap(bitmap);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+        //Create Bitmap Image to place in ImageView (and detect whether SVG or other)
         String fileName = galleryList.get(i).getImage_file();
-        if(getFileExtension(fileName).equals("svg")) {
+        if(getFileExtension(fileName).equals("svg")) { //If Image is SVG
             try {
                 //TODO: SVG IMPLEMENTATION
                 File file = new File(dir+"/"+fileName);
@@ -68,19 +56,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
+        } else { //If image is not SVG
             final int THUMBSIZE = 300;
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + fileName), THUMBSIZE, THUMBSIZE);
             viewHolder.img.setImageBitmap(ThumbImage);
         }
-
-        viewHolder.img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: Open up image w/more options (like Google Photos)
-                Toast.makeText(context,"Image",Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 

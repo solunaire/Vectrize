@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*TEST CODE PLEASE IGNORE
+        /*TEST CODE FOR IMAGE SAVING PLEASE IGNORE
         String fname = "Image-1.jpg";
         int n = 1;
         File file = new File(dir, fname);
@@ -75,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
         MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
 
+        //On ImageClick Listener
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                         ArrayList<ImageModel> data = new ArrayList<>();
+                        //Add images & data into Arraylist of type ImageModel
                         for (int i = 0; i < galleryList.size(); i++) {
                             ImageModel im = new ImageModel();
                             im.setName(galleryList.get(i).getImage_title());
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             data.add(im);
                         }
 
+                        //Send ArrayList of type ImageModel to show in Fullscreen Gallery
                         intent.putParcelableArrayListExtra("data", data);
                         intent.putExtra("pos", position);
                         startActivity(intent);
@@ -139,11 +142,15 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<CreateList> theimage = new ArrayList<>();
         File f = new File(dir);
         if(!f.exists()) {f.mkdirs(); }
+
+        //Directory Tests
         Log.v("Files", f.exists()+"");
         Log.v("Files", f.isDirectory()+"");
         Log.v("Files", f.listFiles()+"");
         Log.v("Files", dir);
+
         File file[] = f.listFiles();
+        //Add all files to ArrayList "theimage"
         for (int i=0; i < file.length; i++)
         {
             CreateList createList = new CreateList();

@@ -5,7 +5,6 @@ https://github.com/Suleiman19/Gallery/blob/master/app/
 src/main/java/com/grafixartist/gallery/DepthPageTransformer.java
  */
 
-
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
