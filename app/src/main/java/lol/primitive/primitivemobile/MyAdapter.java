@@ -11,14 +11,18 @@ import android.media.ThumbnailUtils;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.caverock.androidsvg.SVG;
+
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -46,17 +50,33 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         //Create Bitmap Image to place in ImageView (and detect whether SVG or other)
         String fileName = galleryList.get(i).getImage_file();
+        final int THUMBSIZE = 300;
         if(getFileExtension(fileName).equals("svg")) { //If Image is SVG
             try {
-                //TODO: SVG IMPLEMENTATION
                 File file = new File(dir+"/"+fileName);
-                FileInputStream fileInputStream = new FileInputStream(file);
-//                SVG svg = SVGParser.getSVGFromInputStream(inputStream);
+                InputStream fileInputStream = new FileInputStream(file);
+                SVG svg = SVG.getFromInputStream(fileInputStream); //get raw SVG file
+                Log.v("SVG", svg.getDocumentTitle() + " " + svg.getDocumentWidth() + " " + svg.getDocumentHeight());
+                if (svg.getDocumentWidth() != -1) {
+                    Bitmap newBM = Bitmap.createBitmap((int) Math.ceil(svg.getDocumentWidth()),
+                            (int) Math.ceil(svg.getDocumentHeight()),
+                            Bitmap.Config.ARGB_8888);
+                    viewHolder.img.setImageBitmap(newBM);
+                    Log.v("SVG", "DocWidth != -1");
+                } else {
+//                    PictureDrawable pd = new PictureDrawable(svg.renderToPicture()); //convert to PictureDrawable Format
+//                    Bitmap ti = Bitmap.createBitmap(pd.getIntrinsicWidth(), pd.getIntrinsicHeight(), Bitmap.Config.ARGB_8888); //convert to Bitmap Format
+//                    Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(ti, THUMBSIZE, THUMBSIZE); //convert to Thumbnail format
+//                    viewHolder.img.setImageBitmap(ThumbImage);
+                    Bitmap newBM = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
+                    viewHolder.img.setImageBitmap(newBM);
+                    Log.v("SVG", "DocWidth = -1");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.v("SVG", e.toString());
             }
         } else { //If image is not SVG
-            final int THUMBSIZE = 300;
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + fileName), THUMBSIZE, THUMBSIZE);
             viewHolder.img.setImageBitmap(ThumbImage);
         }
