@@ -1,8 +1,11 @@
 package lol.primitive.primitivemobile;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,9 +14,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.internal.NavigationMenu;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,15 +27,24 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.Permission;
 import java.util.ArrayList;
 
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
+
 public class MainActivity extends AppCompatActivity {
 
     private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
+    private Activity act = this;
+    private int PICK_IMAGE_REQUEST = 1;
+
+    private String selectedImagePath;
+    private String filemanagerstring;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +116,50 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //FAB Initialization
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FabSpeedDial fab = (FabSpeedDial) findViewById(R.id.fab_speed);
+        fab.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                switch(menuItem.toString()) {
+                    case "New": Log.v("MenuListener", "0");
+//                        Intent intent = new Intent(act, ChooseImageActivity.class);
+//                        startActivity(intent);
+
+                        //Either Pick Image Using Camera or from Gallery
+                        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+                        builder.setMessage("Pick Image from Gallery or Camera:")
+                                .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //camera intent
+                                        Intent cameraIntent = new Intent(act, CameraActivity.class);
+                                        startActivity(cameraIntent);
+                                    }
+                                })
+                                .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break;
+                    case "Edit": Log.v("MenuListener", "1");
+                        break;
+                    case "Open": Log.v("MenuListener", "2");
+                        break;
+                    case "Save": Log.v("MenuListener", "3");
+                        break;
+                    case "Cancel": Log.v("MenuListener", "4");
+                        break;
+                    default:
+                        Log.v("MenuListener", menuItem.toString());
+                        Log.v("MenuListener", menuItem.getItemId()+" ");
+                        break;
+                }
+                return false;
             }
         });
     }
@@ -134,6 +186,72 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                Uri selectedImageUri = data.getData();
+
+                //OI FILE Manager
+                filemanagerstring = selectedImageUri.getPath();
+
+                //MEDIA GALLERY
+                selectedImagePath = getPath(selectedImageUri);
+
+                //DEBUG PURPOSE - you can delete this if you want
+                if(selectedImagePath!=null)
+                    System.out.println(selectedImagePath);
+                else System.out.println("selectedImagePath is null");
+                if(filemanagerstring!=null)
+                    System.out.println(filemanagerstring);
+                else System.out.println("filemanagerstring is null");
+
+                //NOW WE HAVE OUR WANTED STRING
+                if(selectedImagePath!=null) {
+                    System.out.println("selectedImagePath is the right one for you!");
+                    Log.v("FilePath", selectedImagePath);
+                } else {
+                    System.out.println("filemanagerstring is the right one for you!");
+                    Log.v("FilePath", filemanagerstring);
+                }
+
+                int flagval = 1;
+                sendImage(flagval);
+            }
+        }
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if(cursor!=null)
+        {
+            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        else return null;
+    }
+
+    public void sendImage(int flag) {
+
+        if (flag == 1) {
+            Intent myIntent1 = new Intent(MainActivity.this, ChooseImageActivity.class);
+            if (selectedImagePath != null) {
+                myIntent1.putExtra("key", selectedImagePath);
+            } else {
+                myIntent1.putExtra("key", filemanagerstring);
+            }
+
+            MainActivity.this.startActivity(myIntent1);
+        }
     }
 
     //Method to prepare gallery
