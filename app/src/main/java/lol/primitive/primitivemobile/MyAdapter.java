@@ -64,10 +64,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     viewHolder.img.setImageBitmap(newBM);
                     Log.v("SVG", "DocWidth != -1");
                 } else {
-//                    PictureDrawable pd = new PictureDrawable(svg.renderToPicture()); //convert to PictureDrawable Format
-//                    Bitmap ti = Bitmap.createBitmap(pd.getIntrinsicWidth(), pd.getIntrinsicHeight(), Bitmap.Config.ARGB_8888); //convert to Bitmap Format
-//                    Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(ti, THUMBSIZE, THUMBSIZE); //convert to Thumbnail format
-//                    viewHolder.img.setImageBitmap(ThumbImage);
                     Bitmap newBM = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
                     viewHolder.img.setImageBitmap(newBM);
                     Log.v("SVG", "DocWidth = -1");
@@ -77,6 +73,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Log.v("SVG", e.toString());
             }
         } else { //If image is not SVG
+            //TODO: Deprecate
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + fileName), THUMBSIZE, THUMBSIZE);
             viewHolder.img.setImageBitmap(ThumbImage);
         }

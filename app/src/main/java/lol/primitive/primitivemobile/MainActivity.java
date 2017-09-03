@@ -122,21 +122,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemSelected(MenuItem menuItem) {
                 switch(menuItem.toString()) {
                     case "New": Log.v("MenuListener", "0");
-//                        Intent intent = new Intent(act, ChooseImageActivity.class);
-//                        startActivity(intent);
 
                         //Either Pick Image Using Camera or from Gallery
                         AlertDialog.Builder builder = new AlertDialog.Builder(act);
                         builder.setMessage("Pick Image from Gallery or Camera:")
                                 .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //camera intent
+                                        //Load Image through Camera (Intent)
                                         Intent cameraIntent = new Intent(act, CameraActivity.class);
                                         startActivity(cameraIntent);
                                     }
                                 })
                                 .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
+                                        //Load Image through Gallery (Intent)
                                         Intent intent = new Intent(Intent.ACTION_PICK,
                                                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                         startActivityForResult(intent, PICK_IMAGE_REQUEST);
@@ -243,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
     public void sendImage(int flag) {
 
         if (flag == 1) {
-            Intent myIntent1 = new Intent(MainActivity.this, ChooseImageActivity.class);
+            Intent myIntent1 = new Intent(MainActivity.this, PreviewActivity.class);
             if (selectedImagePath != null) {
                 myIntent1.putExtra("key", selectedImagePath);
             } else {
