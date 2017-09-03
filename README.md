@@ -1,5 +1,5 @@
 # Primitive-Android
-A mobile version of the Primitive library developed by @fogleman to generate SVG images from raster ones. Developed by @mathnerdrk and @jordanbuchman
+A mobile version of the Primitive library developed by @fogleman to generate SVG images from raster ones. Developed by @rahulk64 and @jordanbuchman
 
 # What It Does
 This app reproduces images with geometric primitives, saved in vector format.
