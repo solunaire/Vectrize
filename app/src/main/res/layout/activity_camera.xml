@@ -26,11 +26,23 @@
         android:layout_marginTop="16dp"
         android:text="@string/take_picture" />
 
-    <Button
-        android:id="@+id/button_capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Capture" />
+    <ImageView
+        android:id="@+id/iv_rotate_front"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/switch_white"
+        android:layout_gravity="start|center_vertical"
+        android:visibility="visible"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_rotate_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/switch_black"
+        android:layout_gravity="start|center_vertical"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

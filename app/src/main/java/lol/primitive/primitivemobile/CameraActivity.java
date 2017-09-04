@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -39,6 +38,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -59,11 +59,14 @@ public class CameraActivity extends AppCompatActivity {
     private Button picButton;
     private TextureView textureView;
     private String cameraId;
+    public static String ROTATE = null;
 
     protected CameraDevice cameraDevice;
     protected CameraCaptureSession cameraCaptureSessions;
     protected CaptureRequest captureRequest;
     protected CaptureRequest.Builder captureRequestBuilder;
+
+    private ImageView ivRotateFront, ivRotateBack;
 
     private Size imageDimension;
     private ImageReader imageReader;
@@ -89,6 +92,49 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takePicture();
+            }
+        });
+
+        //Rotate Camera Button Initialization
+        ivRotateFront = (ImageView) findViewById(R.id.iv_rotate_front);
+        ivRotateBack = (ImageView) findViewById(R.id.iv_rotate_back);
+        ivRotateFront.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ivRotateFront.setVisibility(View.GONE);
+                ivRotateBack.setVisibility(View.VISIBLE);
+
+                closeCamera();
+                stopBackgroundThread();
+
+                startBackgroundThread();
+                if (textureView.isAvailable()) {
+                    ROTATE = "fulfilled";
+                    Log.v("Rotate", "" + ROTATE);
+                    rotateCamera();
+                } else {
+                    textureView.setSurfaceTextureListener(textureListener);
+                }
+            }
+        });
+
+        ivRotateBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("ClickBack", "Test");
+
+                ivRotateFront.setVisibility(View.VISIBLE);
+                ivRotateBack.setVisibility(View.GONE);
+
+                closeCamera();
+                stopBackgroundThread();
+
+                startBackgroundThread();
+                if (textureView.isAvailable()) {
+                    rotateCamera();
+                } else {
+                    textureView.setSurfaceTextureListener(textureListener);
+                }
             }
         });
     }
@@ -287,8 +333,12 @@ public class CameraActivity extends AppCompatActivity {
     private void openCamera() {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         Log.v(LOG_TAG, "is camera open");
+
         try {
-            cameraId = manager.getCameraIdList()[0];
+            if(cameraId == null) {
+                cameraId = manager.getCameraIdList()[0];
+            }
+            
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
@@ -304,6 +354,26 @@ public class CameraActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.v(LOG_TAG, "openCamera X");
+    }
+
+    private void rotateCamera() {
+        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        try {
+            if(ROTATE != null){
+                Log.v("FrontCamera", "Test");
+                cameraId = manager.getCameraIdList()[1];
+                ROTATE = null;
+            } else {
+                Log.v("BackCamera", "Test");
+                cameraId = manager.getCameraIdList()[0];
+            }
+            openCamera();
+
+        } catch (CameraAccessException e) {
+            Toast.makeText(this, "Cannot access the camera.", Toast.LENGTH_SHORT).show();
+            this.finish();
+        }
+
     }
 
     protected void updatePreview() {
