@@ -9,7 +9,10 @@ package lol.primitive.primitivemobile;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -27,30 +30,26 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
-import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
@@ -98,6 +97,7 @@ public class CameraActivity extends AppCompatActivity {
         //Rotate Camera Button Initialization
         ivRotateFront = (ImageView) findViewById(R.id.iv_rotate_front);
         ivRotateBack = (ImageView) findViewById(R.id.iv_rotate_back);
+
         ivRotateFront.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +189,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
+    //Thread Handlers
     protected void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
@@ -207,7 +208,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     protected void takePicture() {
-        if(null == cameraDevice) {
+        if(cameraDevice == null) {
             Log.v(LOG_TAG, "cameraDevice is null");
             return;
         }
@@ -215,6 +216,8 @@ public class CameraActivity extends AppCompatActivity {
         CameraManager camManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             CameraCharacteristics characteristics = camManager.getCameraCharacteristics(cameraDevice.getId());
+            characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
+
             Size[] jpegSizes = null;
             if (characteristics != null) {
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
@@ -235,22 +238,54 @@ public class CameraActivity extends AppCompatActivity {
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
 
-            // Orientation
-            final File file = new File(DIR + "/pic.jpg");
+            //Saves Image as New Image with New Number (similar to hashing)
+            String fname = "Image-1.jpg";
+            int n = (int)(Math.random()* Integer.MAX_VALUE);
+            File tempFile = new File(DIR, fname);
+            while(tempFile.exists()) {
+                n = (int)(Math.random()* Integer.MAX_VALUE);
+                fname="Image-" + n + ".jpg";
+                tempFile = new File(DIR, fname);
+            }
+
+            final File file = tempFile;
+
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
                     Image image = null;
                     try {
-                        image = reader.acquireLatestImage();
+                        image = reader.acquireNextImage();
+
+                        //TODO: Move into Thread to not slow down speed
+                        //Convert to Bytes
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
+//                        Log.v("ImageConvert", "Image Converted to Bytes");
+//
+//                        //Convert to Bitmap to Rotate Image 90deg
+//                        Matrix matrix = new Matrix();
+//                        matrix.postRotate(-90);
+//                        Bitmap source = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
+//                        Bitmap img = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+//                        Log.v("ImageConvert", "Bytes Converted and Rotated");
+//
+//                        //Reconvert Back to Bytes, then Save Bytes
+//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                        Log.v("ImageConvert", "Stream Created");
+//                        img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//                        Log.v("ImageConvert", "Image Compressed to Stream");
+//                        byte[] byteArray = stream.toByteArray();
+//                        Log.v("ImageConvert", "Bitmap Converted Back to Bytes");
+
                         save(bytes);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
+                        Log.v("Save", e.toString());
                     } catch (IOException e) {
                         e.printStackTrace();
+                        Log.v("Save", e.toString());
                     } finally {
                         if (image != null) {
                             image.close();
@@ -263,6 +298,9 @@ public class CameraActivity extends AppCompatActivity {
                     try {
                         output = new FileOutputStream(file);
                         output.write(bytes);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                        Log.v("Save", e.toString());
                     } finally {
                         if (null != output) {
                             output.close();
@@ -288,6 +326,7 @@ public class CameraActivity extends AppCompatActivity {
                         session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
+                        Log.v("Save", e.toString());
                     }
                 }
 
@@ -297,6 +336,7 @@ public class CameraActivity extends AppCompatActivity {
             }, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            Log.v("Save", e.toString());
         }
     }
 
@@ -338,7 +378,7 @@ public class CameraActivity extends AppCompatActivity {
             if(cameraId == null) {
                 cameraId = manager.getCameraIdList()[0];
             }
-            
+
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;

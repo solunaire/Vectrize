@@ -28,7 +28,8 @@
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PreviewActivity" />
-        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".CameraActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
