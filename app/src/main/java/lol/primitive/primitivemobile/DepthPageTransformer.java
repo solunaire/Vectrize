@@ -6,12 +6,16 @@ src/main/java/com/grafixartist/gallery/DepthPageTransformer.java
  */
 
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 public class DepthPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.75f;
 
     public void transformPage(View view, float position) {
+
+        Log.v("Activity", "DepthPageTranformer Called");
+
         int pageWidth = view.getWidth();
 
         if (position < -1) { // [-Infinity,-1)

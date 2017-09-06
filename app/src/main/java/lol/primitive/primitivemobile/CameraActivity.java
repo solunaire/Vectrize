@@ -8,11 +8,11 @@ package lol.primitive.primitivemobile;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
-import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -41,7 +41,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -80,6 +79,8 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        Log.v("Activity", "CameraActivity Started");
 
         //TextureView for Image Stream
         textureView = (TextureView) findViewById(R.id.texture);
@@ -262,30 +263,25 @@ public class CameraActivity extends AppCompatActivity {
                         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
-//                        Log.v("ImageConvert", "Image Converted to Bytes");
-//
-//                        //Convert to Bitmap to Rotate Image 90deg
-//                        Matrix matrix = new Matrix();
-//                        matrix.postRotate(-90);
-//                        Bitmap source = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
-//                        Bitmap img = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-//                        Log.v("ImageConvert", "Bytes Converted and Rotated");
-//
-//                        //Reconvert Back to Bytes, then Save Bytes
-//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                        Log.v("ImageConvert", "Stream Created");
-//                        img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                        Log.v("ImageConvert", "Image Compressed to Stream");
-//                        byte[] byteArray = stream.toByteArray();
-//                        Log.v("ImageConvert", "Bitmap Converted Back to Bytes");
 
-                        save(bytes);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        Log.v("Save", e.toString());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.v("Save", e.toString());
+//                        save(bytes);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                        Log.v("Save", e.toString());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        Log.v("Save", e.toString());
+
+                        closeCamera();
+                        image.close();
+
+                        Intent previewIntent = new Intent(CameraActivity.this, PreviewActivity.class);
+                        previewIntent.putExtra("img", bytes);
+                        CameraActivity.this.startActivity(previewIntent);
+
+                        //Can't press back to load Camera Activity
+                        finish();
+
                     } finally {
                         if (image != null) {
                             image.close();
