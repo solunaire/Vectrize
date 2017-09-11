@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,7 +23,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
@@ -30,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
     private Activity act = this;
-    private int PICK_IMAGE_REQUEST = 1;
+    private final int PICK_IMAGE_REQUEST = 1;
+    private final int TAKE_PICTURE_REQUEST = 115;
+    Uri imageUri;
 
     private String selectedImagePath;
     private String filemanagerstring;
@@ -120,8 +127,12 @@ public class MainActivity extends AppCompatActivity {
                                 .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         //Load Image through Camera (Intent)
-                                        Intent cameraIntent = new Intent(act, CameraActivity.class);
-                                        startActivity(cameraIntent);
+                                        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                                        File photoFile = new File(dir,  "Photo.png");
+                                        imageUri = FileProvider.getUriForFile(MainActivity.this,
+                                                BuildConfig.APPLICATION_ID + ".provider", photoFile);
+                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                                        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
                                     }
                                 })
                                 .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
@@ -181,38 +192,65 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Uri selectedImageUri = null;
+        InputStream inputStream = null;
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == PICK_IMAGE_REQUEST) {
-                Uri selectedImageUri = data.getData();
+        switch(requestCode) {
+            case PICK_IMAGE_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    selectedImageUri = data.getData();
 
-                //OI FILE Manager
-                filemanagerstring = selectedImageUri.getPath();
+                    //OI FILE Manager
+                    filemanagerstring = selectedImageUri.getPath();
 
-                //MEDIA GALLERY
-                selectedImagePath = getPath(selectedImageUri);
+                    //MEDIA GALLERY
+                    selectedImagePath = getPath(selectedImageUri);
 
-                //DEBUG PURPOSE - you can delete this if you want
-                if(selectedImagePath!=null)
-                    System.out.println(selectedImagePath);
-                else System.out.println("selectedImagePath is null");
-                if(filemanagerstring!=null)
-                    System.out.println(filemanagerstring);
-                else System.out.println("filemanagerstring is null");
+                    if (selectedImagePath != null) {
+                        System.out.println("selectedImagePath is the right one for you!");
+                        Log.v("FilePath", selectedImagePath);
+                    } else {
+                        System.out.println("filemanagerstring is the right one for you!");
+                        Log.v("FilePath", filemanagerstring);
+                    }
 
-                //NOW WE HAVE OUR WANTED STRING
-                if(selectedImagePath!=null) {
-                    System.out.println("selectedImagePath is the right one for you!");
-                    Log.v("FilePath", selectedImagePath);
-                } else {
-                    System.out.println("filemanagerstring is the right one for you!");
-                    Log.v("FilePath", filemanagerstring);
+                    int flagval = 1;
+                    sendImage(flagval);
                 }
+                break;
+            case TAKE_PICTURE_REQUEST:
+                if (resultCode == Activity.RESULT_OK) {
+                    selectedImageUri = imageUri;
 
-                int flagval = 1;
-                sendImage(flagval);
-            }
+                    //TODO: Send URI Over instead of image
+                    try {
+                        inputStream = getContentResolver().openInputStream(selectedImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, null);
+
+                        //Scale Down Image Size
+                        final float densityMultiplier = this.getResources().getDisplayMetrics().density;
+
+                        int h= (int) (250*densityMultiplier);
+                        int w= (int) (h * bitmap.getWidth()/((double) bitmap.getHeight()));
+
+                        bitmap=Bitmap.createScaledBitmap(bitmap, w, h, true);
+
+                        //Then Convert to Byte Array
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
+                        byte[] byteArray = stream.toByteArray();
+
+                        Intent myIntent1 = new Intent(MainActivity.this, PreviewActivity.class);
+                        myIntent1.putExtra("img", byteArray);
+                        MainActivity.this.startActivity(myIntent1);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
         }
+        //No Defaults
     }
 
     public String getPath(Uri uri) {
@@ -222,8 +260,7 @@ public class MainActivity extends AppCompatActivity {
         {
             //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
             //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
         }
