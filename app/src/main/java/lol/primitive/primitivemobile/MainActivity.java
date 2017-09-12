@@ -49,35 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.v("Activity", "MainActivity Started");
 
-        /*TEST CODE FOR IMAGE SAVING PLEASE IGNORE
-        String fname = "Image-1.jpg";
-        int n = 1;
-        File file = new File(dir, fname);
-        while(file.exists()) {
-            n++;
-            fname="Image-" + n + ".jpg";
-            file = new File(dir, fname);
-        }
-
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            Drawable drawable = getResources().getDrawable(R.drawable.test_image);
-            Bitmap finalBitmap = ((BitmapDrawable)drawable).getBitmap();
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        MediaScannerConnection.scanFile(this, new String[] {file.toString()}, null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    public void onScanCompleted(String path, Uri uri) {
-                        Log.i("ExternalStorage", "Scanned " + path + ":");
-                        Log.i("ExternalStorage", "-> uri=" + uri);
-                    }
-                }); */
-
         //Image Gallery Initialization
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
@@ -230,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                         //Scale Down Image Size
                         final float densityMultiplier = this.getResources().getDisplayMetrics().density;
 
-                        int h= (int) (250*densityMultiplier);
+                        int h= (int) (100*densityMultiplier);
                         int w= (int) (h * bitmap.getWidth()/((double) bitmap.getHeight()));
 
                         bitmap=Bitmap.createScaledBitmap(bitmap, w, h, true);

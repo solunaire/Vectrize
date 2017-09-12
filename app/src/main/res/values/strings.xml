@@ -3,4 +3,16 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="take_picture">Take Picture</string>
+
+    <string-array name="shapes_spinner_array">
+        <item>Triangles</item>
+        <item>Circles</item>
+        <item>Quadrilaterals</item>
+        <item>Rectangles</item>
+        <item>Ellipses</item>
+        <item>Quadratic Beziers</item>
+        <item>Rotated Rectangles</item>
+        <item>Rotated Ellipsis</item>
+        <item>Combination</item>
+    </string-array>
 </resources>
