@@ -37,6 +37,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 R.array.shapes_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shapesSpinner.setAdapter(adapter);
+        shapesSpinner.setOnItemSelectedListener(this);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
