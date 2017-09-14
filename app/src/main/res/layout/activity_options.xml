@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -10,20 +11,88 @@
     android:orientation="vertical"
     tools:context="lol.primitive.primitivemobile.OptionsActivity">
 
-    <ImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/image_preview_options"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_alignParentTop="true"/>
+        android:orientation="horizontal">
 
-    <Spinner
-        android:id="@+id/shapes_spinner"
+        <ImageView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/image_preview_options"
+            android:layout_width="125dp"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="left"/>
+
+        <Spinner
+            android:id="@+id/shapes_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="24dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="fill_parent"
+            android:text="Shape Alpha:"/>
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shape_alpha_slider"
+            app:dsb_min="0"
+            app:dsb_max="255"
+            app:dsb_value="128" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="fill_parent"
+            android:text="Stroke Width:"/>
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/stroke_width_slider"
+            app:dsb_min="0"
+            app:dsb_max="8"
+            app:dsb_value="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Shapes Per Iteration:"/>
+
+        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shapes_iteration_slider"
+            app:dsb_min="1"
+            app:dsb_max="20"
+            app:dsb_value="1" />
+
+    </LinearLayout>
 
 </LinearLayout>
