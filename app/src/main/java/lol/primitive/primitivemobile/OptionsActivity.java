@@ -31,13 +31,21 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             imageView.setImageBitmap(bitmap);
         }
 
-        //Spinner (Dropdown) Initialization
+        //Shapes Spinner (Dropdown) Initialization
         Spinner shapesSpinner = (Spinner) findViewById(R.id.shapes_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.shapes_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shapesSpinner.setAdapter(adapter);
         shapesSpinner.setOnItemSelectedListener(this);
+
+        //Working Size Spinner Initialization
+        Spinner sizesSpinner = (Spinner) findViewById(R.id.working_size_spinner);
+        ArrayAdapter<CharSequence> sizesAdapter = ArrayAdapter.createFromResource(this,
+                R.array.sizes_spinner_array, android.R.layout.simple_spinner_item);
+        sizesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sizesSpinner.setAdapter(sizesAdapter);
+        sizesSpinner.setOnItemSelectedListener(this);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

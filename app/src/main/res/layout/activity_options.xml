@@ -24,11 +24,27 @@
             android:adjustViewBounds="true"
             android:layout_gravity="left"/>
 
-        <Spinner
-            android:id="@+id/shapes_spinner"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"/>
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/otherButton"
+                android:text="Choose Another Image"/>
+
+            <Spinner
+                android:id="@+id/shapes_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -41,7 +57,8 @@
         <TextView
             android:layout_width="85dp"
             android:layout_height="fill_parent"
-            android:text="Shape Alpha:"/>
+            android:text="Shape Alpha:"
+            android:textColor="#000000"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:layout_width="match_parent"
@@ -62,7 +79,8 @@
         <TextView
             android:layout_width="85dp"
             android:layout_height="fill_parent"
-            android:text="Stroke Width:"/>
+            android:text="Stroke Width:"
+            android:textColor="#000000"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:layout_width="match_parent"
@@ -83,7 +101,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Shapes Per Iteration:"/>
+            android:text="Shapes Per Iteration:"
+            android:textColor="#000000"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:layout_width="match_parent"
@@ -92,6 +111,49 @@
             app:dsb_min="1"
             app:dsb_max="20"
             app:dsb_value="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="-6dp"
+        android:layout_marginTop="4dp">
+
+        <CheckBox
+            android:id="@+id/backgroundCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Background Color:" />
+
+        <View
+            android:id="@+id/colorPickerView"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rect" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Working Size:"
+            android:layout_marginRight="16dp"
+            android:textColor="#000000"/>
+
+        <Spinner
+            android:id="@+id/working_size_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"/>
 
     </LinearLayout>
 

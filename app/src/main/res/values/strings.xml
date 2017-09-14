@@ -15,4 +15,8 @@
         <item>Rotated Ellipsis</item>
         <item>Combination</item>
     </string-array>
+
+    <string-array name="sizes_spinner_array">
+        <item>1024 (nicest)</item>
+    </string-array>
 </resources>
