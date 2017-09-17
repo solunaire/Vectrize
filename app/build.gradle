@@ -34,5 +34,5 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:2.0.0' //PhotoView, special ImageView with zoom gestures
     compile 'com.caverock:androidsvg:1.2.1' //SVG Image Loading Library
     compile 'org.adw.library:discrete-seekbar:1.0.1' //Material Design SlideBar
-//    compile 'com.github.QuadFlask:colorpicker:0.0.13' //Color Picker
+    compile 'com.github.QuadFlask:colorpicker:0.0.11' //Color Picker
 }

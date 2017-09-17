@@ -128,7 +128,7 @@
             android:text="Background Color:" />
 
         <View
-            android:id="@+id/colorPickerView"
+            android:id="@+id/colorPickerBtn"
             android:layout_width="80dp"
             android:layout_height="25dp"
             android:layout_marginLeft="10dp"
