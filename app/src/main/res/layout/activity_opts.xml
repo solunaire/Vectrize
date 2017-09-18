@@ -22,7 +22,7 @@
             android:layout_width="125dp"
             android:layout_height="150dp"
             android:adjustViewBounds="true"
-            android:layout_gravity="left"/>
+            android:layout_gravity="start"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -32,11 +32,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/otherButton"
-                android:text="Choose Another Image"/>
+                android:text="@string/other_image"/>
 
             <Spinner
                 android:id="@+id/shapes_spinner"
@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="85dp"
             android:layout_height="fill_parent"
-            android:text="Shape Alpha:"
+            android:text="@string/shape_alpha"
             android:textColor="#000000"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -79,7 +79,7 @@
         <TextView
             android:layout_width="85dp"
             android:layout_height="fill_parent"
-            android:text="Stroke Width:"
+            android:text="@string/stroke_width"
             android:textColor="#000000"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -88,7 +88,7 @@
             android:id="@+id/stroke_width_slider"
             app:dsb_min="0"
             app:dsb_max="8"
-            app:dsb_value="1" />
+            app:dsb_value="1"/>
 
     </LinearLayout>
 
@@ -101,7 +101,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text="Shapes Per Iteration:"
+            android:text="@string/shapes_iteration"
             android:textColor="#000000"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -118,20 +118,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="-6dp"
+        android:layout_marginStart="-6dp"
         android:layout_marginTop="4dp">
 
         <CheckBox
             android:id="@+id/backgroundCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Background Color:" />
+            android:text="@string/background_color" />
 
         <View
             android:id="@+id/colorPickerBtn"
             android:layout_width="80dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/rect" />
 
@@ -146,8 +146,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Working Size:"
-            android:layout_marginRight="16dp"
+            android:text="@string/working_size"
+            android:layout_marginEnd="16dp"
             android:textColor="#000000"/>
 
         <Spinner
@@ -166,19 +166,19 @@
         <RadioButton android:id="@+id/radio_stopped"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Run Until Stopped"
+            android:text="@string/until_stopped"
             android:onClick="onRadioButtonClicked" />
 
         <RadioButton android:id="@+id/radio_shapes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Run Until Shapes:"
+            android:text="@string/until_shapes"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton android:id="@+id/radio_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Run Until Score:"
+            android:text="@string/until_score"
             android:onClick="onRadioButtonClicked"/>
 
     </RadioGroup>
@@ -192,14 +192,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_gravity="left"
+            android:text="@string/cancel"
+            android:layout_gravity="start"
             android:id="@+id/cancelOptionsBtn"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Run"
+            android:text="@string/run"
             android:layout_gravity="end"
             android:id="@+id/runOptionsBtn"/>
 
