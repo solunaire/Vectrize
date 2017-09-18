@@ -5,16 +5,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.shapes.Shape;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -29,7 +24,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
+        setContentView(R.layout.activity_opts);
 
         //Load Image into ImageView to Preview before Running Primitive
         Intent intent1 = getIntent();
@@ -61,7 +56,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         sizesSpinner.setOnItemSelectedListener(this);
 
         //Color Picker Initialization
-        final View colorPicker = (View) findViewById(R.id.colorPickerBtn);
+        final View colorPicker = findViewById(R.id.colorPickerBtn);
         colorPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,8 +80,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                            public void onClick(DialogInterface dialog, int which) {}
                         }).build().show();
             }
         });

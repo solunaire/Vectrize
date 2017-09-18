@@ -158,56 +158,25 @@
 
     </LinearLayout>
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <RadioButton android:id="@+id/radio_stopped"
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Run Until Stopped"
-            android:onClick="onRadioButtonClicked"/>
+            android:text="Cancel"
+            android:layout_gravity="left"
+            android:id="@+id/cancelOptionsBtn"/>
 
-        <LinearLayout
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="Run"
+            android:layout_gravity="right"
+            android:id="@+id/runOptionsBtn"/>
 
-            <RadioButton android:id="@+id/radio_shapes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Run Until Shapes:"
-                android:onClick="onRadioButtonClicked"/>
-
-            <NumberPicker
-                android:layout_width="40dp"
-                android:layout_height="5dp"
-                android:id="@+id/numShapesRadioPicker"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton android:id="@+id/radio_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Run Until Score:"
-                android:onClick="onRadioButtonClicked"/>
-
-            <NumberPicker
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/scoreRadioPicker"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" %"/>
-        </LinearLayout>
-    </RadioGroup>
+    </LinearLayout>
 
 </LinearLayout>
