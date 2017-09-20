@@ -22,7 +22,8 @@
             android:layout_width="125dp"
             android:layout_height="150dp"
             android:adjustViewBounds="true"
-            android:layout_gravity="start"/>
+            android:layout_gravity="start"
+            android:contentDescription="@string/image_preview_descr"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -161,48 +162,51 @@
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
 
         <RadioButton android:id="@+id/radio_stopped"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/until_stopped"
-            android:onClick="onRadioButtonClicked" />
+            android:onClick="onRadioButtonClickedStopped" />
 
         <RadioButton android:id="@+id/radio_shapes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/until_shapes"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClickedShapes"/>
 
         <RadioButton android:id="@+id/radio_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/until_score"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClickedScore"/>
 
     </RadioGroup>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:layout_gravity="start"
+            android:layout_alignParentStart="true"
             android:id="@+id/cancelOptionsBtn"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/run"
-            android:layout_gravity="end"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorPrimary"
             android:id="@+id/runOptionsBtn"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

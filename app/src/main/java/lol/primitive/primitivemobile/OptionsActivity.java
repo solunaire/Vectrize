@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -76,6 +78,8 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                             @Override
                             public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
                                 colorPicker.setBackgroundColor(selectedColor);
+                                CheckBox backgroundCB = (CheckBox)findViewById(R.id.backgroundCheckBox);
+                                backgroundCB.setChecked(true);
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -84,6 +88,26 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                         }).build().show();
             }
         });
+
+        //Button Initializations
+        Button otherBtn = (Button) findViewById(R.id.otherButton);
+        otherBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent optionsIntent = new Intent(OptionsActivity.this, MainActivity.class);
+                optionsIntent.putExtra("img_choose", true);
+                startActivity(optionsIntent);
+            }
+        });
+
+        Button cancelBtn = (Button) findViewById(R.id.cancelOptionsBtn);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -92,5 +116,18 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Do Something
+    }
+
+    //Radio Button Selectors
+    public void onRadioButtonClickedStopped(View v) {
+        //Do nothing for now
+    }
+
+    public void onRadioButtonClickedShapes(View v) {
+        //Do nothing for now
+    }
+
+    public void onRadioButtonClickedScore(View v) {
+        //Do nothing for now
     }
 }

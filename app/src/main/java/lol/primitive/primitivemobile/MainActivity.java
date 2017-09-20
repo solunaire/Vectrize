@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.v("Activity", "MainActivity Started");
 
+        //Intent Data when Starting from Other Activities (not new run)
+        Intent intent1 = getIntent();
+        if(intent1.hasExtra("img_choose") && intent1.getExtras().getBoolean("img_choose")) {
+            newImage();
+        }
+
         //Image Gallery Initialization
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
@@ -91,32 +97,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemSelected(MenuItem menuItem) {
                 switch(menuItem.toString()) {
                     case "New": Log.v("MenuListener", "0");
-
-                        //Either Pick Image Using Camera or from Gallery
-                        AlertDialog.Builder builder = new AlertDialog.Builder(act);
-                        builder.setMessage("Pick Image from Gallery or Camera:")
-                                .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //Load Image through Camera (Intent)
-                                        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                                        File photoFile = new File(dir,  "Photo.png");
-                                        imageUri = FileProvider.getUriForFile(MainActivity.this,
-                                                BuildConfig.APPLICATION_ID + ".provider", photoFile);
-                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                                        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
-                                    }
-                                })
-                                .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //Load Image through Gallery (Intent)
-                                        Intent intent = new Intent(Intent.ACTION_PICK,
-                                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
+                        //Call Method to Choose Gallery/Camera
+                        newImage();
                         break;
                     case "Edit": Log.v("MenuListener", "1");
                         break;
@@ -163,8 +145,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri selectedImageUri = null;
-        InputStream inputStream = null;
+        Uri selectedImageUri;
+        InputStream inputStream;
 
         switch(requestCode) {
             case PICK_IMAGE_REQUEST:
@@ -295,5 +277,33 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void newImage() {
+        //Either Pick Image Using Camera or from Gallery
+        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+        builder.setMessage("Pick Image from Gallery or Camera:")
+                .setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Load Image through Camera (Intent)
+                        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                        File photoFile = new File(dir,  "Photo.png");
+                        imageUri = FileProvider.getUriForFile(MainActivity.this,
+                                BuildConfig.APPLICATION_ID + ".provider", photoFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+                    }
+                })
+                .setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Load Image through Gallery (Intent)
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

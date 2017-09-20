@@ -16,6 +16,8 @@
     <string name="cancel">Cancel</string>
     <string name="run">Run</string>
 
+    <string name="image_preview_descr">Preview of Image to Vectorize</string>
+
     <string-array name="shapes_spinner_array">
         <item>Triangles</item>
         <item>Circles</item>
