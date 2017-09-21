@@ -15,8 +15,14 @@
     <string name="until_score">Run Until Score:</string>
     <string name="cancel">Cancel</string>
     <string name="run">Run</string>
+    <string name="use_image">Use Image</string>
+    <string name="save">Save</string>
+    <string name="continue_edit">Continue Editting</string>
+    <string name="modal_save">Save As</string>
+    <string name="modal_use_default">Use Default Save</string>
 
     <string name="image_preview_descr">Preview of Image to Vectorize</string>
+    <string name="modal_save_hint">File Name</string>
 
     <string-array name="shapes_spinner_array">
         <item>Triangles</item>

@@ -108,6 +108,19 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
+        Button runBtn = (Button) findViewById(R.id.runOptionsBtn);
+        runBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Run Primitive Libraries
+                Intent finishIntent = new Intent(OptionsActivity.this, FinishedPreviewActivity.class);
+                //TODO: Change to SVG Image
+//                finishIntent.putExtra("svg_image", img);
+                startActivity(finishIntent);
+                finish();
+            }
+        });
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

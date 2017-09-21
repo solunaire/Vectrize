@@ -29,7 +29,7 @@
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PreviewActivity" />
-        <activity android:name=".OptionsActivity"></activity>
+        <activity android:name=".OptionsActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -38,8 +38,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
+        <activity android:name=".FinishedPreviewActivity"></activity>
     </application>
 
 </manifest>
