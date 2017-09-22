@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.pixplicity.sharp.Sharp;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -47,6 +49,9 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         } else {
             imageView.setBackgroundResource(R.drawable.error);
         }
+        Sharp.loadString("<svg height='150' width='500'>\n" +
+                "<circle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' />\n" +
+                "</svg>\n").into(imageView);
 
         Button cancelBtn = (Button) findViewById(R.id.cancelFinishedBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +75,14 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         });
 
         Button editBtn = (Button) findViewById(R.id.editFinishedBtn);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Sharp.loadString("<svg height='150' width='500'>\n" +
+                        "<circle cx='200' cy='200' r='100' stroke='black' stroke-width='3' fill='red' />\n" +
+                        "</svg>\n").into(imageView);
+            }
+        });
         //TODO: onClickListener for editBtn
 
         Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);

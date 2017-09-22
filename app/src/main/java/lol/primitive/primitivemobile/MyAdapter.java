@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.caverock.androidsvg.SVG;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,9 +56,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             try {
                 File file = new File(dir+"/"+fileName);
                 InputStream fileInputStream = new FileInputStream(file);
-                SVG svg = SVG.getFromInputStream(fileInputStream); //get raw SVG file
-                Log.v("SVG", svg.getDocumentTitle() + " " + svg.getDocumentWidth() + " " + svg.getDocumentHeight());
-                if (svg.getDocumentWidth() != -1) {
+                //SVG svg = SVG.getFromInputStream(fileInputStream); //get raw SVG file
+                //Log.v("SVG", svg.getDocumentTitle() + " " + svg.getDocumentWidth() + " " + svg.getDocumentHeight());
+                /*if (svg.getDocumentWidth() != -1) {
                     Bitmap newBM = Bitmap.createBitmap((int) Math.ceil(svg.getDocumentWidth()),
                             (int) Math.ceil(svg.getDocumentHeight()),
                             Bitmap.Config.ARGB_8888);
@@ -69,7 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     Bitmap newBM = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
                     viewHolder.img.setImageBitmap(newBM);
                     Log.v("SVG", "DocWidth = -1");
-                }
+                }*/
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.v("SVG", e.toString());
