@@ -48,13 +48,13 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finished_preview);
         final Intent intent = getIntent();
-        AVLoadingIndicatorView avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
+        final AVLoadingIndicatorView avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         avi.show();
         final ImageView imageView = (ImageView) findViewById(R.id.finished_image_preview);
         if(intent.hasExtra("svg_image")) {
             imageView.setImageBitmap((Bitmap) intent.getExtras().get("svg_image"));
         } else {
-            imageView.setBackgroundResource(R.drawable.error);
+            //imageView.setBackgroundResource(R.drawable.error);
         }
         new Thread(new Runnable() {
             public void run() {
@@ -67,6 +67,13 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 int alpha = intent.getExtras().getInt("alpha");
                 int repeat = intent.getExtras().getInt("repeat");
                 Sharp.loadString(Primitivemobile.ProcessImage(path,inputSize,outputSize,count,mode,background,alpha,repeat)).into(imageView);
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        avi.smoothToHide();
+                    }
+                });
             }
         }).start();
 
