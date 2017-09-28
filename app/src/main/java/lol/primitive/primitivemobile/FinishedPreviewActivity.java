@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pixplicity.sharp.Sharp;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,25 +34,42 @@ import java.nio.ByteBuffer;
 
 import static android.R.attr.bitmap;
 
+import go.primitivemobile.Primitivemobile;
+
+
+
 public class FinishedPreviewActivity extends AppCompatActivity {
 
     private static final String DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finished_preview);
-
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
+        AVLoadingIndicatorView avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
+        avi.show();
         final ImageView imageView = (ImageView) findViewById(R.id.finished_image_preview);
         if(intent.hasExtra("svg_image")) {
             imageView.setImageBitmap((Bitmap) intent.getExtras().get("svg_image"));
         } else {
             imageView.setBackgroundResource(R.drawable.error);
         }
-        Sharp.loadString("<svg height='150' width='500'>\n" +
-                "<circle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' />\n" +
-                "</svg>\n").into(imageView);
+        new Thread(new Runnable() {
+            public void run() {
+                String path = intent.getExtras().getString("path");
+                int inputSize = intent.getExtras().getInt("inputSize");
+                int outputSize = intent.getExtras().getInt("outputSize");
+                int count = intent.getExtras().getInt("count");
+                int mode = intent.getExtras().getInt("mode");
+                String background = intent.getExtras().getString("background");
+                int alpha = intent.getExtras().getInt("alpha");
+                int repeat = intent.getExtras().getInt("repeat");
+                Sharp.loadString(Primitivemobile.ProcessImage(path,inputSize,outputSize,count,mode,background,alpha,repeat)).into(imageView);
+            }
+        }).start();
+
 
         Button cancelBtn = (Button) findViewById(R.id.cancelFinishedBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {

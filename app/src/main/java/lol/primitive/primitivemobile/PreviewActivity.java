@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import static android.content.Intent.getIntent;
+
 public class PreviewActivity extends AppCompatActivity {
 
     String picturePath;

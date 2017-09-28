@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -30,7 +34,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
         //Load Image into ImageView to Preview before Running Primitive
         Intent intent1 = getIntent();
-        String picturePath = intent1.getExtras().getString("path");
+        final String picturePath = intent1.getExtras().getString("path");
         ImageView imageView = (ImageView) findViewById(R.id.image_preview_options);
         if(picturePath != null) {
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
@@ -42,7 +46,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         }
 
         //Shapes Spinner (Dropdown) Initialization
-        Spinner shapesSpinner = (Spinner) findViewById(R.id.shapes_spinner);
+        final Spinner shapesSpinner = (Spinner) findViewById(R.id.shapes_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.shapes_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,6 +61,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         sizesSpinner.setAdapter(sizesAdapter);
         sizesSpinner.setOnItemSelectedListener(this);
 
+        String background = "";
         //Color Picker Initialization
         final View colorPicker = findViewById(R.id.colorPickerBtn);
         colorPicker.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +119,19 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             public void onClick(View v) {
                 //TODO: Run Primitive Libraries
                 Intent finishIntent = new Intent(OptionsActivity.this, FinishedPreviewActivity.class);
+                finishIntent.putExtra("path",picturePath);
+                finishIntent.putExtra("inputSize",256);
+                finishIntent.putExtra("outputSize",1024);
+                finishIntent.putExtra("count",30);
+                finishIntent.putExtra("mode",shapesSpinner.getSelectedItemPosition());
+                if (((CheckBox)findViewById(R.id.backgroundCheckBox)).isChecked()){
+                    finishIntent.putExtra("background",((ColorDrawable)colorPicker.getBackground()).getColor());
+                }
+                else {
+                    finishIntent.putExtra("background","");
+                }
+                finishIntent.putExtra("alpha",((DiscreteSeekBar) findViewById(R.id.shape_alpha_slider)).getProgress());
+                finishIntent.putExtra("repeat", ((DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider)).getProgress());
                 //TODO: Change to SVG Image
 //                finishIntent.putExtra("svg_image", img);
                 startActivity(finishIntent);

@@ -7,6 +7,14 @@
     tools:context="lol.primitive.primitivemobile.FinishedPreviewActivity">
 
     <!--Change to SVG View -->
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:indicatorName="BallPulseIndicator"
+        style="@style/AVLoadingIndicatorView.Large"
+    />
+
     <ImageView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/finished_image_preview"

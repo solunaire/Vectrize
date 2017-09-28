@@ -25,15 +25,15 @@
     <string name="modal_save_hint">File Name</string>
 
     <string-array name="shapes_spinner_array">
+        <item>Combo</item>
         <item>Triangles</item>
-        <item>Circles</item>
-        <item>Quadrilaterals</item>
         <item>Rectangles</item>
         <item>Ellipses</item>
-        <item>Quadratic Beziers</item>
+        <item>Circles</item>
         <item>Rotated Rectangles</item>
-        <item>Rotated Ellipsis</item>
-        <item>Combination</item>
+        <item>Beziers</item>
+        <item>Rotated Ellipses</item>
+        <item>Polygons</item>
     </string-array>
 
     <string-array name="sizes_spinner_array">
