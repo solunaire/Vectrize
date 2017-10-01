@@ -131,7 +131,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                     finishIntent.putExtra("background","");
                 }
                 finishIntent.putExtra("alpha",((DiscreteSeekBar) findViewById(R.id.shape_alpha_slider)).getProgress());
-                finishIntent.putExtra("repeat", ((DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider)).getProgress());
+                finishIntent.putExtra("repeat", ((DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider)).getProgress()-1);
                 //TODO: Change to SVG Image
 //                finishIntent.putExtra("svg_image", img);
                 startActivity(finishIntent);
