@@ -1,45 +1,27 @@
 package lol.primitive.primitivemobile;
 
-import android.app.Dialog;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.media.ImageReader;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pixplicity.sharp.Sharp;
 import com.wang.avi.AVLoadingIndicatorView;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.util.Scanner;
-
-import static android.R.attr.bitmap;
 
 import primitivemobile.Primitivemobile;
 
@@ -54,11 +36,11 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finished_preview);
         final Intent intent = getIntent();
 
-        final AVLoadingIndicatorView avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
+        final AVLoadingIndicatorView avi = findViewById(R.id.avi);
         avi.show();
         avi.hide();
 
-        final ImageView imageView = (ImageView) findViewById(R.id.finished_image_preview);
+        final ImageView imageView = findViewById(R.id.finished_image_preview);
 
         final File file;
         try {
@@ -66,28 +48,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             FileObserver observer = new FileObserver(file.getAbsolutePath(),FileObserver.MODIFY) { // set up a file observer to watch this directory on sd card
                 @Override
                 public void onEvent(int event, String nullFile) {
-                    InputStream is = null;
-                    System.out.println(file.getAbsolutePath());
-                    try {
-                        is = new FileInputStream(file.getAbsolutePath());
-                        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-
-                        String line = buf.readLine();
-                        StringBuilder sb = new StringBuilder();
-
-                        while(line != null){
-                            sb.append(line).append("\n");
-                            line = buf.readLine();
-                        }
-
-                        String svg = sb.toString();
-                        Sharp.loadString(svg).into(imageView);
-                        System.out.println(svg);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Sharp.loadFile(file).into(imageView);
                 }
             };
             observer.startWatching();
@@ -109,10 +70,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
 
 
         Button cancelBtn = (Button) findViewById(R.id.cancelFinishedBtn);
