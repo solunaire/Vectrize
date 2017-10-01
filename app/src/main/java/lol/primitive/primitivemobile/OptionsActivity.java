@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -117,12 +118,13 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         runBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Run Primitive Libraries
+                EditText numShapes = (EditText)findViewById(R.id.num_shapes_edit);
+                int numberShapes = Integer.parseInt(numShapes.getText().toString());
                 Intent finishIntent = new Intent(OptionsActivity.this, FinishedPreviewActivity.class);
                 finishIntent.putExtra("path",picturePath);
                 finishIntent.putExtra("inputSize",256);
                 finishIntent.putExtra("outputSize",1024);
-                finishIntent.putExtra("count",30);
+                finishIntent.putExtra("count",numberShapes);
                 finishIntent.putExtra("mode",shapesSpinner.getSelectedItemPosition());
                 if (((CheckBox)findViewById(R.id.backgroundCheckBox)).isChecked()){
                     finishIntent.putExtra("background",((ColorDrawable)colorPicker.getBackground()).getColor());
