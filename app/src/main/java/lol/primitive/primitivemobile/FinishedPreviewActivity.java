@@ -27,18 +27,21 @@ import android.widget.Toast;
 import com.pixplicity.sharp.Sharp;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 import static android.R.attr.bitmap;
 
-import go.primitivemobile.Primitivemobile;
-
+import primitivemobile.Primitivemobile;
 
 public class FinishedPreviewActivity extends AppCompatActivity {
 
@@ -62,9 +65,29 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             file = File.createTempFile("primitive-output", null, this.getCacheDir());
             FileObserver observer = new FileObserver(file.getAbsolutePath(),FileObserver.MODIFY) { // set up a file observer to watch this directory on sd card
                 @Override
-                public void onEvent(int event, String file) {
-                    String svg = new Scanner(file).useDelimiter("\\Z").next();
-                    Sharp.loadString(svg).into(imageView);
+                public void onEvent(int event, String nullFile) {
+                    InputStream is = null;
+                    System.out.println(file.getAbsolutePath());
+                    try {
+                        is = new FileInputStream(file.getAbsolutePath());
+                        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+                        String line = buf.readLine();
+                        StringBuilder sb = new StringBuilder();
+
+                        while(line != null){
+                            sb.append(line).append("\n");
+                            line = buf.readLine();
+                        }
+
+                        String svg = sb.toString();
+                        Sharp.loadString(svg).into(imageView);
+                        System.out.println(svg);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
             observer.startWatching();
@@ -79,7 +102,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     String background = intent.getExtras().getString("background");
                     int alpha = intent.getExtras().getInt("alpha");
                     int repeat = intent.getExtras().getInt("repeat");
-                    Primitivemobile.ProcessImage(path,inputSize,outputSize,count,mode,background,alpha,repeat,file.getAbsolutePath());
+                    Primitivemobile.processImage(path,inputSize,outputSize,count,mode,background,alpha,repeat,file.getAbsolutePath());
                 }
             }).start();
 
