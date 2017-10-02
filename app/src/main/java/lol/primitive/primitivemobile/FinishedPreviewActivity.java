@@ -154,7 +154,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
                 //Saves Image as New Image with New Number (similar to hashing)
                 try {
-                    File file = File.createTempFile("Primitive-","jpg",new File(DIR));
+                    File file = File.createTempFile("Primitive-",".jpg",new File(DIR));
                     OutputStream stream = new FileOutputStream(file);
 
                     PictureDrawable pictureDrawable = (PictureDrawable)imageView.getDrawable();
