@@ -3,8 +3,10 @@ package lol.primitive.primitivemobile;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -151,28 +153,31 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 //                });
 
                 //Saves Image as New Image with New Number (similar to hashing)
-                int n = (int)(Math.random()* Integer.MAX_VALUE);
-                String fname = "Image-" + n + ".jpg";
-                File file = new File(DIR, fname);
-                while(file.exists()) {
-                    n = (int) (Math.random() * Integer.MAX_VALUE);
-                    fname = "Image-" + n + ".jpg";
-                }
-
-                //Process for Saving Image:
                 try {
+                    File file = File.createTempFile("Primitive-","jpg",new File(DIR));
                     OutputStream stream = new FileOutputStream(file);
-                    Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+
+                    PictureDrawable pictureDrawable = (PictureDrawable)imageView.getDrawable();
+                    Bitmap bitmap = Bitmap.createBitmap(pictureDrawable.getIntrinsicWidth(), pictureDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmap);
+                    canvas.drawPicture(pictureDrawable.getPicture());
                     bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream); //TODO: change to SVG saving
+
                     stream.flush();
                     stream.close();
-                } catch (Exception e) {
+
+                    Uri savedImageURI = Uri.parse(file.getAbsolutePath());
+                    Toast.makeText(FinishedPreviewActivity.this, "Image saved in internal storage.\n" + savedImageURI, Toast.LENGTH_SHORT).show();
+                    finish(); //Return to MainActivity
+
+                }
+                catch (IOException e){
                     e.printStackTrace();
+                    Toast.makeText(FinishedPreviewActivity.this, "Unable to save image", Toast.LENGTH_SHORT).show();
+                    finish(); //Return to MainActivity
                 }
 
-                Uri savedImageURI = Uri.parse(file.getAbsolutePath());
-                Toast.makeText(FinishedPreviewActivity.this, "Image saved in internal storage.\n" + savedImageURI, Toast.LENGTH_SHORT).show();
-                finish(); //Return to MainActivity
+
             }
         });
 
