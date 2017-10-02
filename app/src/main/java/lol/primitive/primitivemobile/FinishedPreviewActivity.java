@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
@@ -57,7 +58,12 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            imageProgress.setProgress((int)((++count/(double)totalNumShapes)*100),true);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
+                            }
+                            else{
+                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
+                            }
                         }
                     });
                 }
