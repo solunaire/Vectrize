@@ -150,17 +150,4 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     public void onNothingSelected(AdapterView<?> parent) {
         // Do Something
     }
-
-    //Radio Button Selectors
-    public void onRadioButtonClickedStopped(View v) {
-        //Do nothing for now
-    }
-
-    public void onRadioButtonClickedShapes(View v) {
-        //Do nothing for now
-    }
-
-    public void onRadioButtonClickedScore(View v) {
-        //Do nothing for now
-    }
 }

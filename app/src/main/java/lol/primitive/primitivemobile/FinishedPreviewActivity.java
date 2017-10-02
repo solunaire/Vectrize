@@ -3,6 +3,7 @@ package lol.primitive.primitivemobile;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.pixplicity.sharp.Sharp;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -36,19 +38,29 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finished_preview);
         final Intent intent = getIntent();
 
-        final AVLoadingIndicatorView avi = findViewById(R.id.avi);
-        avi.show();
-        avi.hide();
-
+        final RoundCornerProgressBar imageProgress = (RoundCornerProgressBar) findViewById(R.id.image_progress);
+        imageProgress.setProgressColor(Color.parseColor("#ed3b27"));
+        imageProgress.setProgressBackgroundColor(Color.parseColor("#808080"));
+        imageProgress.setMax(100);
+        imageProgress.setProgress(0);
+        final int totalNumShapes = intent.getExtras().getInt("count");
         final ImageView imageView = findViewById(R.id.finished_image_preview);
 
         final File file;
         try {
             file = File.createTempFile("primitive-output", null, this.getCacheDir());
             FileObserver observer = new FileObserver(file.getAbsolutePath(),FileObserver.MODIFY) { // set up a file observer to watch this directory on sd card
+                int count = 0;
                 @Override
                 public void onEvent(int event, String nullFile) {
                     Sharp.loadFile(file).into(imageView);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageProgress.setProgress((int)((++count/(double)totalNumShapes)*100));
+                        }
+                    });
                 }
             };
             observer.startWatching();

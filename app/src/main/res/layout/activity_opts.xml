@@ -159,60 +159,27 @@
 
     </LinearLayout>
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">        
+        android:orientation="horizontal">
 
-        <RadioButton android:id="@+id/radio_stopped"
+        <TextView android:id="@+id/radio_shapes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/until_stopped"
-            android:onClick="onRadioButtonClickedStopped" />
+            android:text="@string/until_shapes"
+            android:onClick="onRadioButtonClickedShapes"
+            android:textColor="#000000"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:layout_marginStart="4dp"
+            android:id="@+id/num_shapes_edit"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:hint="@string/edit_num_shapes"
+            android:inputType="phone" />
 
-            <RadioButton android:id="@+id/radio_shapes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/until_shapes"
-                android:onClick="onRadioButtonClickedShapes"/>
-
-            <EditText
-                android:layout_marginStart="4dp"
-                android:id="@+id/num_shapes_edit"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/edit_num_shapes"
-                android:inputType="phone" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RadioButton android:id="@+id/radio_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/until_score"
-                android:onClick="onRadioButtonClickedScore"/>
-
-            <EditText
-                android:layout_marginStart="4dp"
-                android:id="@+id/num_score_edit"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/edit_num_score"
-                android:inputType="phone" />
-
-        </LinearLayout>
-
-    </RadioGroup>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
