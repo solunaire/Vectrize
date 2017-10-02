@@ -110,16 +110,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             }
         });
 
-        Button editBtn = (Button) findViewById(R.id.editFinishedBtn);
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Sharp.loadString("<svg height='150' width='500'>\n" +
-                        "<circle cx='200' cy='200' r='100' stroke='black' stroke-width='3' fill='red' />\n" +
-                        "</svg>\n").into(imageView);
-            }
-        });
-        //TODO: onClickListener for editBtn
 
         Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
