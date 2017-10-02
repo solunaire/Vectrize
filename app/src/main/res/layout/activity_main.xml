@@ -28,15 +28,14 @@
         android:layout_gravity="center_horizontal|top"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <io.github.yavski.fabspeeddial.FabSpeedDial
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
-        android:id="@+id/fab_speed"
-        app:fabGravity="bottom_end"
-        app:fabMenu="@menu/fab_menu"
-        app:miniFabBackgroundTint="@android:color/white"
-        app:miniFabDrawableTint="?attr/colorPrimary"
-        app:miniFabTitleTextColor="?attr/colorPrimary" />
+        android:id="@+id/fab_plus"
+        android:src="@drawable/add"
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>
