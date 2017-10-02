@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ProgressBar;
 
-import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.pixplicity.sharp.Sharp;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -38,12 +38,11 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finished_preview);
         final Intent intent = getIntent();
 
-        final RoundCornerProgressBar imageProgress = (RoundCornerProgressBar) findViewById(R.id.image_progress);
-        imageProgress.setProgressColor(Color.parseColor("#ed3b27"));
-        imageProgress.setProgressBackgroundColor(Color.parseColor("#808080"));
+        final ProgressBar imageProgress = (ProgressBar) findViewById(R.id.progressBar);
         imageProgress.setMax(100);
         imageProgress.setProgress(0);
         final int totalNumShapes = intent.getExtras().getInt("count");
+
         final ImageView imageView = findViewById(R.id.finished_image_preview);
 
         final File file;
@@ -58,7 +57,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            imageProgress.setProgress((int)((++count/(double)totalNumShapes)*100));
+                            imageProgress.setProgress((int)((++count/(double)totalNumShapes)*100),true);
                         }
                     });
                 }

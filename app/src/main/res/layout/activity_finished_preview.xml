@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context="lol.primitive.primitivemobile.FinishedPreviewActivity">
 
-    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_marginTop="2dp"
-        app:rcRadius="3dp"
-        app:rcBackgroundPadding="1dp"
-        android:id="@+id/image_progress"/>
+        android:progress="0"/>
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/finished_image_preview"
