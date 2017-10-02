@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -28,6 +27,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,10 +91,29 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //FAB Initialization
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab_plus);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                newImage();
+        FabSpeedDial fab = (FabSpeedDial) findViewById(R.id.fab_speed);
+        fab.setMenuListener(new SimpleMenuListenerAdapter() {
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                switch(menuItem.toString()) {
+                    case "New": Log.v("MenuListener", "0");
+                        //Call Method to Choose Gallery/Camera
+                        newImage();
+                        break;
+                    case "Edit": Log.v("MenuListener", "1");
+                        break;
+                    case "Open": Log.v("MenuListener", "2");
+                        break;
+                    case "Save": Log.v("MenuListener", "3");
+                        break;
+                    case "Cancel": Log.v("MenuListener", "4");
+                        break;
+                    default:
+                        Log.v("MenuListener", menuItem.toString());
+                        Log.v("MenuListener", menuItem.getItemId()+" ");
+                        break;
+                }
+                return false;
             }
         });
     }
