@@ -43,7 +43,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.title.setText(galleryList.get(i).getImage_title());
         viewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -86,13 +85,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return galleryList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView title;
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView img;
         public ViewHolder(View view) {
             super(view);
 
-            title = (TextView)view.findViewById(R.id.title);
             img = (ImageView) view.findViewById(R.id.img);
         }
     }

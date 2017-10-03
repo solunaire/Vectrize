@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                         //Add images & data into Arraylist of type ImageModel
                         for (int i = 0; i < galleryList.size(); i++) {
                             ImageModel im = new ImageModel();
-                            im.setName(galleryList.get(i).getImage_title());
                             im.setUrl(dir + "/" + galleryList.get(i).getImage_file());
                             data.add(im);
                         }
@@ -251,7 +250,6 @@ public class MainActivity extends AppCompatActivity {
         {
             CreateList createList = new CreateList();
             createList.setImage_Location(file[i].getName());
-            createList.setImage_title(file[i].getName());
             createList.setImage_ID(i);
             theimage.add(createList);
         }

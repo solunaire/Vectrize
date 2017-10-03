@@ -11,11 +11,4 @@
         android:layout_margin="5dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"/>
-    <TextView
-        android:id="@+id/title"
-        android:layout_gravity="center"
-        android:textColor="#000"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout>
