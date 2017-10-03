@@ -1,24 +1,17 @@
 package lol.primitive.primitivemobile;
 
-import android.app.ActivityManager;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,17 +19,13 @@ import android.widget.Toast;
 import android.widget.ProgressBar;
 
 import com.pixplicity.sharp.Sharp;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
 import primitivemobile.Primitivemobile;
-
-import static android.R.attr.id;
 
 public class FinishedPreviewActivity extends AppCompatActivity {
 
@@ -63,38 +52,17 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 int count = 0;
                 @Override
                 public void onEvent(int event, String nullFile) {
-                    if(isAppOnForeground(FinishedPreviewActivity.this, FinishedPreviewActivity.this.getPackageName())) {
-                        //App in Foreground: Load Shapes into ImageView
-                        Sharp.loadFile(file).into(imageView);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
-                                } else {
-                                    imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
-                                }
+                    Sharp.loadFile(file).into(imageView);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
+                            } else {
+                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
                             }
-                        });
-                    } else {
-                        //App in Background: Load Shapes in FileSVG
-                        System.out.println("hi");
-                        count++;
-                    }
-
-                    final NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(FinishedPreviewActivity.this);
-                    mBuilder.setContentTitle("Primitive Generation")
-                            .setContentText("Primitive In Progress")
-                            .setSmallIcon(R.drawable.sync);
-
-                    mBuilder.setProgress(100, (int) ((count / (double) totalNumShapes) * 100), false);
-                    mNotifyManager.notify(id, mBuilder.build());
-
-                    if (count / totalNumShapes == 1) {
-                        mBuilder.setContentText("Primitive Operation Complete").setProgress(0, 0, false);
-                        mNotifyManager.notify(id, mBuilder.build());
-                    }
+                        }
+                    });
                 }
             };
             observer.startWatching();
@@ -117,7 +85,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         Button cancelBtn = (Button) findViewById(R.id.cancelFinishedBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,51 +105,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 alert.show();
             }
         });
-
-//        Button temp = (Button) findViewById(R.id.tempBtn);
-//        temp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//                final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(FinishedPreviewActivity.this);
-//                mBuilder.setContentTitle("Primitive Running")
-//                        .setContentText("Download in progress")
-//                        .setSmallIcon(R.drawable.sync);
-//                // Start a lengthy operation in a background thread
-//                new Thread(
-//                        new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                int incr;
-//                                // Do the "lengthy" operation 20 times
-//                                for (incr = 0; incr <= 100; incr+=5) {
-//                                    // Sets the progress indicator to a max value, the
-//                                    // current completion percentage, and "determinate"
-//                                    // state
-//                                    mBuilder.setProgress(100, incr, false);
-//                                    // Displays the progress bar for the first time.
-//                                    mNotifyManager.notify(id, mBuilder.build());
-//                                    // Sleeps the thread, simulating an operation
-//                                    // that takes time
-//                                    try {
-//                                        // Sleep for 5 seconds
-//                                        Thread.sleep(5*1000);
-//                                    } catch (InterruptedException e) {
-//                                        Log.d("Notification Progress", "sleep failure");
-//                                    }
-//                                }
-//                                // When the loop is finished, updates the notification
-//                                mBuilder.setContentText("Download complete")
-//                                        // Removes the progress bar
-//                                        .setProgress(0,0,false);
-//                                mNotifyManager.notify(id, mBuilder.build());
-//                            }
-//                        }
-//                // Starts the thread by calling the run() method in its Runnable
-//                ).start();
-//            }
-//        });
-
 
         Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -252,21 +174,5 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private boolean isAppOnForeground(Context context, String appPackageName) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        if (appProcesses == null) {
-            return false;
-        }
-        final String packageName = appPackageName;
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-                    && appProcess.processName.equals(packageName)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
