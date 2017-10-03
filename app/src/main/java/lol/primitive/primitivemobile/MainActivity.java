@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
         MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
 
+        if(galleryList.size() == 0) {
+            findViewById(R.id.no_saved_imageview).setVisibility(View.VISIBLE);
+        }
+
         //On ImageClick Listener
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
                 new RecyclerItemClickListener.OnItemClickListener() {
