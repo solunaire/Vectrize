@@ -3,6 +3,7 @@ package lol.primitive.primitivemobile;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,9 @@ public class PreviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         Log.v("Activity", "PreviewActivity Started");
 
         //Load Image into ImageView to Preview before Running Primitive
@@ -40,7 +44,7 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         //Choose Button Initialization
-        Button btn = (Button) findViewById(R.id.usePicBtn);
+        FloatingActionButton btn = (FloatingActionButton) findViewById(R.id.usePicBtn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,5 +63,10 @@ public class PreviewActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 
 }
