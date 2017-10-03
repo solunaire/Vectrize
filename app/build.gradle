@@ -45,8 +45,6 @@ dependencies {
     //Loading
     compile 'com.wang.avi:library:2.1.3'
     //SVG Viewing Library
-    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
-    //Loading Library
     testCompile 'junit:junit:4.12'
     compile project(':primitivemobile')
 }

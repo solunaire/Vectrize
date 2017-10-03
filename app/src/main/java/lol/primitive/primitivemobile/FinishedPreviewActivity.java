@@ -1,5 +1,6 @@
 package lol.primitive.primitivemobile;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 import primitivemobile.Primitivemobile;
 
@@ -61,35 +63,38 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 int count = 0;
                 @Override
                 public void onEvent(int event, String nullFile) {
-                    Sharp.loadFile(file).into(imageView);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
+                    if(isAppOnForeground(FinishedPreviewActivity.this, FinishedPreviewActivity.this.getPackageName())) {
+                        //App in Foreground: Load Shapes into ImageView
+                        Sharp.loadFile(file).into(imageView);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
+                                } else {
+                                    imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
+                                }
                             }
-                            else{
-                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
-                            }
+                        });
+                    } else {
+                        //App in Background: Load Shapes in FileSVG
+                        System.out.println("hi");
+                        count++;
+                    }
 
-                            final NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(FinishedPreviewActivity.this);
-                            mBuilder.setContentTitle("Primitive Generation")
-                                    .setContentText("Primitive In Progress")
-                                    .setSmallIcon(R.drawable.sync);
+                    final NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(FinishedPreviewActivity.this);
+                    mBuilder.setContentTitle("Primitive Generation")
+                            .setContentText("Primitive In Progress")
+                            .setSmallIcon(R.drawable.sync);
 
-                            mBuilder.setProgress(100, (int) ((count / (double) totalNumShapes) * 100), false);
-                            mNotifyManager.notify(id, mBuilder.build());
+                    mBuilder.setProgress(100, (int) ((count / (double) totalNumShapes) * 100), false);
+                    mNotifyManager.notify(id, mBuilder.build());
 
-                            if(count / totalNumShapes == 1) {
-                                mBuilder.setContentText("Primitive Operation Complete").setProgress(0, 0, false);
-                                mNotifyManager.notify(id, mBuilder.build());
-                            }
-
-                        }
-                    });
+                    if (count / totalNumShapes == 1) {
+                        mBuilder.setContentText("Primitive Operation Complete").setProgress(0, 0, false);
+                        mNotifyManager.notify(id, mBuilder.build());
+                    }
                 }
             };
             observer.startWatching();
@@ -247,5 +252,21 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean isAppOnForeground(Context context, String appPackageName) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) {
+            return false;
+        }
+        final String packageName = appPackageName;
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+                    && appProcess.processName.equals(packageName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
