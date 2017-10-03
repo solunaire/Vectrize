@@ -27,6 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
@@ -245,6 +247,21 @@ public class MainActivity extends AppCompatActivity {
         Log.v("Files", dir);
 
         File file[] = f.listFiles();
+
+        //Sort file[] based on Date Last Modified
+        Arrays.sort(file, new Comparator()
+        {
+            public int compare(Object o1, Object o2) {
+                if (((File)o1).lastModified() > ((File)o2).lastModified()) {
+                    return -1;
+                } else if (((File)o1).lastModified() < ((File)o2).lastModified()) {
+                    return +1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
         //Add all files to ArrayList "theimage"
         for (int i=0; i < file.length; i++)
         {
