@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -118,26 +119,35 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         runBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText numShapes = (EditText)findViewById(R.id.num_shapes_edit);
-                int numberShapes = Integer.parseInt(numShapes.getText().toString());
-                Intent finishIntent = new Intent(OptionsActivity.this, FinishedPreviewActivity.class);
-                finishIntent.putExtra("path",picturePath);
-                finishIntent.putExtra("inputSize",256);
-                finishIntent.putExtra("outputSize",1024);
-                finishIntent.putExtra("count",numberShapes);
-                finishIntent.putExtra("mode",shapesSpinner.getSelectedItemPosition());
-                if (((CheckBox)findViewById(R.id.backgroundCheckBox)).isChecked()){
-                    finishIntent.putExtra("background",((ColorDrawable)colorPicker.getBackground()).getColor());
+                //Check that Shapes Filled First
+                EditText numShapesView = (EditText)findViewById(R.id.num_shapes_edit);
+                String shapesStr = numShapesView.getText().toString();
+                if (TextUtils.isEmpty(shapesStr)) {
+                    numShapesView.setError(getString(R.string.error_field_required));
+                    numShapesView.requestFocus();;
+                } else if (!isNotInteger(shapesStr)) {
+                    numShapesView.setError(getString(R.string.number_field_required));
+                    numShapesView.requestFocus();;
+                } else {
+                    int numberShapes = Integer.parseInt(numShapesView.getText().toString());
+                    Intent finishIntent = new Intent(OptionsActivity.this, FinishedPreviewActivity.class);
+                    finishIntent.putExtra("path", picturePath);
+                    finishIntent.putExtra("inputSize", 256);
+                    finishIntent.putExtra("outputSize", 1024);
+                    finishIntent.putExtra("count", numberShapes);
+                    finishIntent.putExtra("mode", shapesSpinner.getSelectedItemPosition());
+                    if (((CheckBox) findViewById(R.id.backgroundCheckBox)).isChecked()) {
+                        finishIntent.putExtra("background", ((ColorDrawable) colorPicker.getBackground()).getColor());
+                    } else {
+                        finishIntent.putExtra("background", "");
+                    }
+                    finishIntent.putExtra("alpha", ((DiscreteSeekBar) findViewById(R.id.shape_alpha_slider)).getProgress());
+                    finishIntent.putExtra("repeat", ((DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider)).getProgress() - 1);
+                    //TODO: Change to SVG Image
+                    //                finishIntent.putExtra("svg_image", img);
+                    startActivity(finishIntent);
+                    finish();
                 }
-                else {
-                    finishIntent.putExtra("background","");
-                }
-                finishIntent.putExtra("alpha",((DiscreteSeekBar) findViewById(R.id.shape_alpha_slider)).getProgress());
-                finishIntent.putExtra("repeat", ((DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider)).getProgress()-1);
-                //TODO: Change to SVG Image
-//                finishIntent.putExtra("svg_image", img);
-                startActivity(finishIntent);
-                finish();
             }
         });
 
@@ -149,5 +159,17 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Do Something
+    }
+
+    private boolean isNotInteger(String str) {
+        int size = str.length();
+
+        for (int i = 0; i < size; i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

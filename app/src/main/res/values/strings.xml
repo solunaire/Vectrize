@@ -26,6 +26,9 @@
     <string name="image_preview_descr">Preview of Image to Vectorize</string>
     <string name="modal_save_hint">File Name</string>
 
+    <string name="error_field_required">This Field is Required</string>
+    <string name="number_field_required">Only Number Values are Accepted</string>
+
     <string-array name="shapes_spinner_array">
         <item>Combo</item>
         <item>Triangles</item>
