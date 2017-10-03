@@ -5,7 +5,7 @@
     <string name="take_picture">Take Picture</string>
 
     <string name="other_image">Choose Another Image</string>
-    <string name="shape_alpha">Shape Transparency</string>
+    <string name="shape_alpha">Transparency</string>
     <string name="stroke_width">Stroke Width</string>
     <string name="shapes_iteration">Shapes Per Iteration</string>
     <string name="background_color">Background Color</string>
