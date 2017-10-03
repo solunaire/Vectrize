@@ -1,5 +1,7 @@
 package lol.primitive.primitivemobile;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,8 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +33,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import primitivemobile.Primitivemobile;
+
+import static android.R.attr.id;
 
 public class FinishedPreviewActivity extends AppCompatActivity {
 
@@ -56,16 +62,32 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 @Override
                 public void onEvent(int event, String nullFile) {
                     Sharp.loadFile(file).into(imageView);
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
                             }
                             else{
                                 imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
                             }
+
+                            final NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(FinishedPreviewActivity.this);
+                            mBuilder.setContentTitle("Primitive Generation")
+                                    .setContentText("Primitive In Progress")
+                                    .setSmallIcon(R.drawable.sync);
+
+                            mBuilder.setProgress(100, (int) ((count / (double) totalNumShapes) * 100), false);
+                            mNotifyManager.notify(id, mBuilder.build());
+
+                            if(count / totalNumShapes == 1) {
+                                mBuilder.setContentText("Primitive Operation Complete").setProgress(0, 0, false);
+                                mNotifyManager.notify(id, mBuilder.build());
+                            }
+
                         }
                     });
                 }
@@ -111,6 +133,50 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 alert.show();
             }
         });
+
+//        Button temp = (Button) findViewById(R.id.tempBtn);
+//        temp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//                final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(FinishedPreviewActivity.this);
+//                mBuilder.setContentTitle("Primitive Running")
+//                        .setContentText("Download in progress")
+//                        .setSmallIcon(R.drawable.sync);
+//                // Start a lengthy operation in a background thread
+//                new Thread(
+//                        new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                int incr;
+//                                // Do the "lengthy" operation 20 times
+//                                for (incr = 0; incr <= 100; incr+=5) {
+//                                    // Sets the progress indicator to a max value, the
+//                                    // current completion percentage, and "determinate"
+//                                    // state
+//                                    mBuilder.setProgress(100, incr, false);
+//                                    // Displays the progress bar for the first time.
+//                                    mNotifyManager.notify(id, mBuilder.build());
+//                                    // Sleeps the thread, simulating an operation
+//                                    // that takes time
+//                                    try {
+//                                        // Sleep for 5 seconds
+//                                        Thread.sleep(5*1000);
+//                                    } catch (InterruptedException e) {
+//                                        Log.d("Notification Progress", "sleep failure");
+//                                    }
+//                                }
+//                                // When the loop is finished, updates the notification
+//                                mBuilder.setContentText("Download complete")
+//                                        // Removes the progress bar
+//                                        .setProgress(0,0,false);
+//                                mNotifyManager.notify(id, mBuilder.build());
+//                            }
+//                        }
+//                // Starts the thread by calling the run() method in its Runnable
+//                ).start();
+//            }
+//        });
 
 
         Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
