@@ -32,7 +32,7 @@
             android:title="@string/action_share"
             android:src="@drawable/share"
             android:background="@null"
-            android:layout_marginStart="4dp"
+            android:layout_margin="16dp"
             android:layout_weight="1"/>
 
         <ImageButton
@@ -42,7 +42,7 @@
             android:title="@string/action_details"
             android:src="@drawable/information"
             android:background="@null"
-            android:layout_marginStart="4dp"
+            android:layout_margin="16dp"
             android:layout_weight="1"/>
 
         <ImageButton
@@ -52,7 +52,7 @@
             android:title="@string/action_delete"
             android:src="@drawable/delete"
             android:background="@null"
-            android:layout_marginStart="4dp"
+            android:layout_margin="16dp"
             android:layout_weight="1"/>
 
     </LinearLayout>
