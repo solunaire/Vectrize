@@ -19,41 +19,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@android:color/black"
         android:layout_gravity="bottom"
+        android:layout_weight="2"
+        android:background="@android:color/black"
         android:gravity="center|bottom"
-        android:layout_weight="2">
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/share"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:title="@string/action_share"
-            android:src="@drawable/share"
-            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="16dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/detail_menu_share"
+            android:title="@string/action_share" />
 
         <ImageButton
             android:id="@+id/details"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:title="@string/action_details"
-            android:src="@drawable/information"
-            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="16dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/detail_menu_info"
+            android:title="@string/action_details" />
 
         <ImageButton
             android:id="@+id/delete"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:title="@string/action_delete"
-            android:src="@drawable/delete"
-            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="16dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/detail_menu_delete"
+            android:title="@string/action_delete" />
 
     </LinearLayout>
 
