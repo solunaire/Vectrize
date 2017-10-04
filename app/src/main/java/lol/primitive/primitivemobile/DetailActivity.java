@@ -5,6 +5,8 @@ https://github.com/Suleiman19/Gallery/blob/master/app/
 src/main/java/com/grafixartist/gallery/DetailActivity.java
  */
 
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -28,14 +30,6 @@ import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     //ArrayList containing ImageModels (implementing Parcelable) to store images & data
@@ -44,9 +38,6 @@ public class DetailActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -56,7 +47,9 @@ public class DetailActivity extends AppCompatActivity {
 
         Log.v("Activity", "DetailActivity Started");
 
-        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Integer.decode("#FFFFFF")));
 
         data = getIntent().getParcelableArrayListExtra("data");
         pos = getIntent().getIntExtra("pos", 0);
@@ -92,8 +85,6 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
 
@@ -106,24 +97,28 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_share:
+                //TODO: Share
+                return true;
+            case R.id.action_details:
+                //TODO: Details
+                return true;
+            case R.id.action_delete:
+                //TODO: Delete
+                return true;
+            default:
+                Log.v("MenuItem", id+"");
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         public ArrayList<ImageModel> data = new ArrayList<>();
 
@@ -151,15 +146,8 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
 
+    public static class PlaceholderFragment extends Fragment {
         String name, url;
         int pos;
         private static final String ARG_SECTION_NUMBER = "section_number";

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Primitive</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_details">Details</string>
+    <string name="action_delete">Delete</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="take_picture">Take Picture</string>
 

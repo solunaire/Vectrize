@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="lol.primitive.primitivemobile.FinishedPreviewActivity">
+    tools:context="lol.primitive.primitivemobile.FinishedPreviewActivity"
+    android:background="@android:color/black">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -20,7 +21,8 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:layout_marginTop="-10dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
