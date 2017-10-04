@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -14,6 +15,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/black"
+        android:layout_gravity="bottom"
+        android:gravity="center|bottom"
+        android:layout_weight="2">
+
+        <ImageButton
+            android:id="@+id/share"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:title="@string/action_share"
+            android:src="@drawable/share"
+            android:background="@null"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/details"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:title="@string/action_details"
+            android:src="@drawable/information"
+            android:background="@null"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:title="@string/action_delete"
+            android:src="@drawable/delete"
+            android:background="@null"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
