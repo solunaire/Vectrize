@@ -6,7 +6,8 @@
         android:id="@+id/action_share"
         android:orderInCategory="10"
         android:title="@string/action_share"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:actionProviderClass="android.widget.ShareActionProvider"/>
 
     <item
         android:id="@+id/action_details"

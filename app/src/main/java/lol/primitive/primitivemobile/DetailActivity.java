@@ -5,9 +5,12 @@ https://github.com/Suleiman19/Gallery/blob/master/app/
 src/main/java/com/grafixartist/gallery/DetailActivity.java
  */
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBar;
+import android.net.Uri;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -22,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ShareActionProvider mShareActionProvider;
 
     //ArrayList containing ImageModels (implementing Parcelable) to store images & data
     public ArrayList<ImageModel> data = new ArrayList<>();
@@ -85,6 +90,14 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
+
+        ImageButton shareBtn = (ImageButton) findViewById(R.id.share);
+        shareBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareIntent();
+            }
+        });
     }
 
 
@@ -92,7 +105,10 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detail, menu);
-        return true;
+        MenuItem item = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+
+        return(super.onCreateOptionsMenu(menu));
     }
 
     @Override
@@ -104,7 +120,7 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_share:
-                //TODO: Share
+                shareIntent();
                 return true;
             case R.id.action_details:
                 //TODO: Details
@@ -197,5 +213,15 @@ public class DetailActivity extends AppCompatActivity {
             return rootView;
         }
 
+    }
+
+    private void shareIntent() {
+        System.out.println("SHARING INTENT!!!");
+        Uri currUri = Uri.parse(data.get(pos).getUrl());
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setAction(Intent.ACTION_SEND);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, currUri);
+        sharingIntent.setType("image/jpeg");
+        startActivity(Intent.createChooser(sharingIntent, getResources().getText(R.string.share_to)));
     }
 }

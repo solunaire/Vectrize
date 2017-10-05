@@ -19,11 +19,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_weight="2"
+        android:orientation="horizontal"
         android:background="@android:color/black"
+        android:layout_gravity="bottom"
         android:gravity="center|bottom"
-        android:orientation="horizontal">
+        android:layout_weight="2">
 
         <ImageButton
             android:id="@+id/share"
