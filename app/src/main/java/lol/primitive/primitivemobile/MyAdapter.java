@@ -73,7 +73,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Log.v("SVG", e.toString());
             }
         } else { //If image is not SVG
-            //TODO: Deprecate
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(dir + "/" + fileName), THUMBSIZE, THUMBSIZE);
             viewHolder.img.setImageBitmap(ThumbImage);
         }

@@ -5,10 +5,12 @@ https://github.com/Suleiman19/Gallery/blob/master/app/
 src/main/java/com/grafixartist/gallery/DetailActivity.java
  */
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -27,9 +29,11 @@ import android.view.ViewGroup;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
@@ -98,6 +102,14 @@ public class DetailActivity extends AppCompatActivity {
                 shareIntent();
             }
         });
+
+        ImageButton delBtn = (ImageButton) findViewById(R.id.delete);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete();
+            }
+        });
     }
 
 
@@ -126,7 +138,7 @@ public class DetailActivity extends AppCompatActivity {
                 //TODO: Details
                 return true;
             case R.id.action_delete:
-                //TODO: Delete
+                delete();
                 return true;
             default:
                 Log.v("MenuItem", id+"");
@@ -221,7 +233,44 @@ public class DetailActivity extends AppCompatActivity {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setAction(Intent.ACTION_SEND);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, currUri);
-        sharingIntent.setType("image/jpeg");
+        sharingIntent.setType("image/png");
         startActivity(Intent.createChooser(sharingIntent, getResources().getText(R.string.share_to)));
+    }
+
+    private void delete() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this image?")
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //Do Nothing
+                    }
+                })
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Uri currUri = Uri.parse(data.get(pos).getUrl());
+                        File fdelete = new File(currUri.getPath());
+                        if (fdelete.exists()) {
+                            if (fdelete.delete()) {
+                                data.remove(pos);
+                                mSectionsPagerAdapter.notifyDataSetChanged();
+                                if(data.size() == 0) {
+                                    finish();
+                                } else if(pos==0) {
+                                    mViewPager.setCurrentItem(++pos);
+                                } else {
+                                    mViewPager.setCurrentItem(--pos);
+                                }
+
+                                Toast.makeText(DetailActivity.this, "File Deleted", Toast.LENGTH_SHORT).show();
+                            } else {
+                                System.out.println("file not Deleted :" + currUri.getPath());
+                                Toast.makeText(DetailActivity.this, "Unable to Delete File. Please Report Bug", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
