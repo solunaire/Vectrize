@@ -1,12 +1,5 @@
 package lol.primitive.primitivemobile;
 
-/*Taken from
-https://github.com/Suleiman19/Gallery/blob/master/app/src/main/java/com/
-grafixartist/gallery/RecyclerItemClickListener.java
-
-Thanks to @Suleiman19 for the file
- */
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

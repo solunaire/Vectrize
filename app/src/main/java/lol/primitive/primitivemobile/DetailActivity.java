@@ -1,10 +1,5 @@
 package lol.primitive.primitivemobile;
 
-/*Adapted from
-https://github.com/Suleiman19/Gallery/blob/master/app/
-src/main/java/com/grafixartist/gallery/DetailActivity.java
- */
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -72,6 +67,16 @@ public class DetailActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setPageTransformer(true, new DepthPageTransformer());
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                pos = position;
+            }
+        });
+
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(pos);
 
@@ -136,6 +141,7 @@ public class DetailActivity extends AppCompatActivity {
                 return true;
             case R.id.action_details:
                 //TODO: Details
+                System.out.println("pos = " + pos );
                 return true;
             case R.id.action_delete:
                 delete();
@@ -255,11 +261,17 @@ public class DetailActivity extends AppCompatActivity {
                                 mSectionsPagerAdapter.notifyDataSetChanged();
                                 if(data.size() == 0) {
                                     finish();
-                                } else if(pos==0) {
-                                    mViewPager.setCurrentItem(++pos);
-                                } else {
+                                } else if(pos+1 == data.size()) {
                                     mViewPager.setCurrentItem(--pos);
+                                } else {
+                                    mViewPager.setCurrentItem(pos);
                                 }
+
+                                Intent refreshIntent = new Intent(DetailActivity.this, DetailActivity.class);
+                                refreshIntent.putParcelableArrayListExtra("data", data);
+                                refreshIntent.putExtra("pos", pos);
+                                startActivity(refreshIntent);
+                                finish();
 
                                 Toast.makeText(DetailActivity.this, "File Deleted", Toast.LENGTH_SHORT).show();
                             } else {
