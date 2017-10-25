@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.support.v4.app.ShareCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -239,9 +241,15 @@ public class DetailActivity extends AppCompatActivity {
 
     private void shareIntent() {
         System.out.println("SHARING INTENT!!!");
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        File imageFile = new File(data.get(pos).getUrl());
+        Uri uriToImage = FileProvider.getUriForFile(
+                this, BuildConfig.APPLICATION_ID + ".provider", imageFile);
+        Intent shareIntent = ShareCompat.IntentBuilder.from(DetailActivity.this)
+                .setStream(uriToImage)
+                .getIntent();
+        shareIntent.setData(uriToImage);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.setType("image/jpeg");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+data.get(pos).getUrl()));
         startActivity(Intent.createChooser(shareIntent, "Share image"));
     }
 
