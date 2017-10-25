@@ -70,6 +70,10 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 public void run() {
                     String path = intent.getExtras().getString("path");
+                    if(path == null) {
+                        Uri temp = (Uri) intent.getExtras().get("uri");
+                        path = temp.getPath();
+                    }
                     int inputSize = intent.getExtras().getInt("inputSize");
                     int outputSize = intent.getExtras().getInt("outputSize");
                     int count = intent.getExtras().getInt("count");
