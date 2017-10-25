@@ -2,6 +2,7 @@ package lol.primitive.primitivemobile;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,7 +26,9 @@ import android.view.MenuItem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -174,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     selectedImageUri = imageUri;
 
-                    //TODO: Send URI Over instead of image
                     try {
                         inputStream = getContentResolver().openInputStream(selectedImageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, null);
@@ -185,15 +187,8 @@ public class MainActivity extends AppCompatActivity {
                         int h= (int) (100*densityMultiplier);
                         int w= (int) (h * bitmap.getWidth()/((double) bitmap.getHeight()));
 
-                        bitmap=Bitmap.createScaledBitmap(bitmap, w, h, true);
-
-                        //Then Convert to Byte Array
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
-                        byte[] byteArray = stream.toByteArray();
-
                         Intent myIntent1 = new Intent(MainActivity.this, PreviewActivity.class);
-                        myIntent1.putExtra("img", byteArray);
+                        myIntent1.putExtra("uriKey", selectedImageUri);
                         MainActivity.this.startActivity(myIntent1);
 
                     } catch (Exception e) {

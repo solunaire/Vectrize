@@ -239,7 +239,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setAction(Intent.ACTION_SEND);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, currUri);
-        sharingIntent.setType("image/png");
+        sharingIntent.setType("image/jpg");
         startActivity(Intent.createChooser(sharingIntent, getResources().getText(R.string.share_to)));
     }
 

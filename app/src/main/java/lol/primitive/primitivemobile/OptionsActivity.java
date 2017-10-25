@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +29,10 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class OptionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Override
@@ -37,9 +43,55 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         //Load Image into ImageView to Preview before Running Primitive
         Intent intent1 = getIntent();
         final String picturePath = intent1.getExtras().getString("path");
+        final Uri pictureUri = (Uri) intent1.getExtras().get("uri");
         ImageView imageView = (ImageView) findViewById(R.id.image_preview_options);
         if(picturePath != null) {
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        } else if(pictureUri != null) {
+            ParcelFileDescriptor parcelFD = null;
+            try {
+                parcelFD = getContentResolver().openFileDescriptor(pictureUri, "r");
+                FileDescriptor imageSource = parcelFD.getFileDescriptor();
+
+                // Decode image size
+                BitmapFactory.Options o = new BitmapFactory.Options();
+                o.inJustDecodeBounds = true;
+                BitmapFactory.decodeFileDescriptor(imageSource, null, o);
+
+                // the new size we want to scale to
+                final int REQUIRED_SIZE = 1024;
+
+                // Find the correct scale value. It should be the power of 2.
+                int width_tmp = o.outWidth, height_tmp = o.outHeight;
+                int scale = 1;
+                while (true) {
+                    if (width_tmp < REQUIRED_SIZE && height_tmp < REQUIRED_SIZE) {
+                        break;
+                    }
+                    width_tmp /= 2;
+                    height_tmp /= 2;
+                    scale *= 2;
+                }
+
+                // decode with inSampleSize
+                BitmapFactory.Options o2 = new BitmapFactory.Options();
+                o2.inSampleSize = scale;
+                Bitmap bitmap = BitmapFactory.decodeFileDescriptor(imageSource, null, o2);
+
+                imageView.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                // handle errors
+            } catch (IOException e) {
+                // handle errors
+            } finally {
+                if (parcelFD != null)
+                    try {
+                        parcelFD.close();
+                    } catch (IOException e) {
+                        // ignored
+                    }
+            }
         } else {
             byte[] bytes = (byte[]) intent1.getExtras().get("img");
             BitmapFactory.Options options = new BitmapFactory.Options();
