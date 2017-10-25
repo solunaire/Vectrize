@@ -183,7 +183,11 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 } else {
                     int numberShapes = Integer.parseInt(numShapesView.getText().toString());
                     Intent finishIntent = new Intent(OptionsActivity.this, FinishedPreviewActivity.class);
-                    finishIntent.putExtra("path", picturePath);
+                    if(picturePath != null ) {
+                        finishIntent.putExtra("path", picturePath);
+                    } else {
+                        finishIntent.putExtra("uri", pictureUri);
+                    }
                     finishIntent.putExtra("inputSize", 256);
                     finishIntent.putExtra("outputSize", 1024);
                     finishIntent.putExtra("count", numberShapes);

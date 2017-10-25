@@ -48,6 +48,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         final File file;
         try {
             file = File.createTempFile("primitive-output", null, this.getCacheDir());
+
             FileObserver observer = new FileObserver(file.getAbsolutePath(),FileObserver.MODIFY) { // set up a file observer to watch this directory on sd card
                 int count = 0;
                 @Override
@@ -72,8 +73,14 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     String path = intent.getExtras().getString("path");
                     if(path == null) {
                         Uri temp = (Uri) intent.getExtras().get("uri");
-                        path = temp.getPath();
+                        System.out.println(temp.toString());
+//                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + temp.getPath();
                     }
+
+                    if(path == null) {
+                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Photo.png";
+                    }
+
                     int inputSize = intent.getExtras().getInt("inputSize");
                     int outputSize = intent.getExtras().getInt("outputSize");
                     int count = intent.getExtras().getInt("count");
@@ -173,8 +180,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     Toast.makeText(FinishedPreviewActivity.this, "Unable to save image", Toast.LENGTH_SHORT).show();
                     finish(); //Return to MainActivity
                 }
-
-
             }
         });
 
