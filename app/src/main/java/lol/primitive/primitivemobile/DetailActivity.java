@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +49,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         Log.v("Activity", "DetailActivity Started");
 
@@ -235,12 +239,10 @@ public class DetailActivity extends AppCompatActivity {
 
     private void shareIntent() {
         System.out.println("SHARING INTENT!!!");
-        Uri currUri = Uri.parse(data.get(pos).getUrl());
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setAction(Intent.ACTION_SEND);
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, currUri);
-        sharingIntent.setType("image/jpg");
-        startActivity(Intent.createChooser(sharingIntent, getResources().getText(R.string.share_to)));
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/jpeg");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+data.get(pos).getUrl()));
+        startActivity(Intent.createChooser(shareIntent, "Share image"));
     }
 
     private void delete() {
