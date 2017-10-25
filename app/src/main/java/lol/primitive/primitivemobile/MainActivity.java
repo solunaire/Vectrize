@@ -177,24 +177,11 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     selectedImageUri = imageUri;
 
-                    try {
-                        inputStream = getContentResolver().openInputStream(selectedImageUri);
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, null);
-
-                        //Scale Down Image Size
-                        final float densityMultiplier = this.getResources().getDisplayMetrics().density;
-
-                        int h= (int) (100*densityMultiplier);
-                        int w= (int) (h * bitmap.getWidth()/((double) bitmap.getHeight()));
-
-                        Intent myIntent1 = new Intent(MainActivity.this, PreviewActivity.class);
-                        myIntent1.putExtra("uriKey", selectedImageUri);
-                        MainActivity.this.startActivity(myIntent1);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Intent myIntent1 = new Intent(MainActivity.this, PreviewActivity.class);
+                    myIntent1.putExtra("uriKey", selectedImageUri);
+                    MainActivity.this.startActivity(myIntent1);
                 }
+
                 break;
         }
         //No Defaults
