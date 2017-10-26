@@ -30,14 +30,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--TODO: Implement Properly-->
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:id="@+id/otherButton"
                 android:text="@string/other_image"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/shape_types_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/about_title_size"/>
 
             <Spinner
                 android:id="@+id/shapes_spinner"
@@ -59,7 +70,7 @@
             android:layout_width="85dp"
             android:layout_height="fill_parent"
             android:text="@string/shape_alpha"
-            android:textColor="#000000"/>
+            android:textColor="@color/black"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:layout_width="match_parent"
@@ -81,7 +92,7 @@
             android:layout_width="85dp"
             android:layout_height="fill_parent"
             android:text="@string/stroke_width"
-            android:textColor="#000000"/>
+            android:textColor="@color/black"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:layout_width="match_parent"
@@ -103,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:text="@string/shapes_iteration"
-            android:textColor="#000000"/>
+            android:textColor="@color/black"/>
 
         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
             android:layout_width="match_parent"
@@ -149,7 +160,7 @@
             android:layout_height="wrap_content"
             android:text="@string/working_size"
             android:layout_marginEnd="16dp"
-            android:textColor="#000000"/>
+            android:textColor="@color/black"/>
 
         <Spinner
             android:id="@+id/working_size_spinner"
@@ -169,7 +180,7 @@
             android:layout_height="wrap_content"
             android:text="@string/until_shapes"
             android:onClick="onRadioButtonClickedShapes"
-            android:textColor="#000000"/>
+            android:textColor="@color/black"/>
 
         <EditText
             android:layout_marginStart="4dp"
@@ -194,7 +205,7 @@
             android:text="@string/cancel"
             android:layout_alignParentStart="true"
             android:id="@+id/cancelOptionsBtn"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:background="@drawable/button_red"/>
 
         <Button
@@ -202,7 +213,7 @@
             android:layout_height="wrap_content"
             android:text="@string/run"
             android:layout_alignParentEnd="true"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:id="@+id/runOptionsBtn"
             android:background="@drawable/button_blue"/>
 

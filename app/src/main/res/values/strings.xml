@@ -29,6 +29,7 @@
     <string name="edit_num_shapes">Try "50"</string>
     <string name="edit_num_score">Try "0.95"</string>
     <string name="share_to">Share Images To&#8230;</string>
+    <string name="shape_types_text">Select Shape Type</string>
 
     <string name="image_preview_descr">Preview of Image to Vectorize</string>
     <string name="modal_save_hint">File Name</string>

@@ -224,7 +224,9 @@ public class MainActivity extends AppCompatActivity {
                 // log
             }finally {
                 try {
-                    inputStream.close();
+                    if(inputStream != null) {
+                        inputStream.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -352,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void newCameraImage() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),  "Photo.png");
+        File photoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Photo.png");
         imageUri = FileProvider.getUriForFile(MainActivity.this,
                 BuildConfig.APPLICATION_ID + ".provider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
