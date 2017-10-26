@@ -38,7 +38,7 @@ import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
+    private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/primitive";
     private Activity act = this;
     private final int PICK_IMAGE_REQUEST = 1;
     private final int TAKE_PICTURE_REQUEST = 115;
@@ -56,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Intent Data when Starting from Other Activities (not new run)
         Intent intent1 = getIntent();
-        if(intent1.hasExtra("img_choose") && intent1.getExtras().getBoolean("img_choose")) {
+        if (intent1.hasExtra("img_choose") && intent1.getExtras().getBoolean("img_choose")) {
             newImage();
         }
 
         //Image Gallery Initialization
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.imagegallery);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         ArrayList<CreateList> createLists = prepareData();
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
 
-        if(galleryList.size() == 0) {
+        if (galleryList.size() == 0) {
             findViewById(R.id.no_saved_imageview).setVisibility(View.VISIBLE);
         }
 
@@ -103,16 +103,18 @@ public class MainActivity extends AppCompatActivity {
         fab.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
-                switch(menuItem.toString()) {
-                    case "Camera": Log.v("MenuListener", "0");
+                switch (menuItem.toString()) {
+                    case "Camera":
+                        Log.v("MenuListener", "0");
                         newCameraImage();
                         break;
-                    case "Gallery": Log.v("MenuListener", "1");
+                    case "Gallery":
+                        Log.v("MenuListener", "1");
                         newGalleryImage();
                         break;
                     default:
                         Log.v("MenuListener", menuItem.toString());
-                        Log.v("MenuListener", menuItem.getItemId()+" ");
+                        Log.v("MenuListener", menuItem.getItemId() + " ");
                         break;
                 }
                 return false;
@@ -137,8 +139,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_about:
+                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+//            case R.id.action_help:
+//                return true;
         }
 
         return super.onOptionsItemSelected(item);

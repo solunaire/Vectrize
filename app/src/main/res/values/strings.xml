@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Primitive</string>
     <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <string name="action_licenses">Licenses</string>
+    <string name="action_help">Help &amp; Feedback</string>
     <string name="action_share">Share</string>
     <string name="action_details">Details</string>
     <string name="action_delete">Delete</string>
@@ -48,4 +51,23 @@
     <string-array name="sizes_spinner_array">
         <item>1024 (nicest)</item>
     </string-array>
+
+    <!--ABOUT TEXT-->
+    <string name="about">About Us</string>
+    <string name="about_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Sed imperdiet accumsan condimentum. Aenean feugiat massa non accumsan.
+        Nullam velit orci, eleifend et lectus eget, iaculis imperdiet lacus. Nulla scelerisque
+        mauris ac nibh rutrum, in sodales nulla varius. Nam quis accumsan magna.
+        In et fringilla tellus. Proin imperdiet cursus nunc sit amet feugiat.
+        &#10; &#10;
+        Sed eget urna id enim aliquet gravida. Nulla sed vehicula erat. Suspendisse arcu risus,
+        efficitur sodales neque id, tempus pharetra orci. Donec finibus ornare
+        venenatis. Mauris et orci
+        vel nisi imperdiet molestie vitae vel elit. Pellentesque id purus lacus. Cras
+        nec vestibulum enim. Vivamus in orci ex. Vestibulum varius nulla at mauris lacinia facilisis.
+        Quisque mi dolor,
+        aliquet id mattis nec, auctor id tortor. Morbi eleifend at
+        ipsum eget convallis.</string>
+    <string name="licenses">Licenses</string>
+    <string name="licenses_text">lskdflskfjlsdkfj</string>
 </resources>

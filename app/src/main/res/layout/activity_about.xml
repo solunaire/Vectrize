@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="lol.primitive.primitivemobile.AboutActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/about_title_size"
+        android:layout_marginTop="@dimen/about_margin"
+        android:layout_marginStart="@dimen/about_margin"
+        android:layout_marginEnd="@dimen/about_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_text"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/about_margin"
+        android:layout_marginStart="@dimen/about_margin"
+        android:layout_marginEnd="@dimen/about_margin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/licenses"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/about_title_size"
+        android:layout_marginTop="@dimen/about_margin"
+        android:layout_marginStart="@dimen/about_margin"
+        android:layout_marginEnd="@dimen/about_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/licenses_text"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/about_margin"
+        android:layout_marginStart="@dimen/about_margin"
+        android:layout_marginEnd="@dimen/about_margin"/>
+
+</LinearLayout>

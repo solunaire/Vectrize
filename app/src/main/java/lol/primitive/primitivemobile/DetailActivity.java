@@ -52,9 +52,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-
         Log.v("Activity", "DetailActivity Started");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
