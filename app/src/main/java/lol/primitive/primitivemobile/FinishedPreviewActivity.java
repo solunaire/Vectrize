@@ -73,13 +73,12 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     String path = intent.getExtras().getString("path");
                     if(path == null) {
                         Uri temp = (Uri) intent.getExtras().get("uri");
-                        System.out.println(temp.toString());
-//                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + temp.getPath();
+                        String uriPath = temp.getPath();
+                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                                + uriPath.substring(uriPath.lastIndexOf("/"));
                     }
 
-                    if(path == null) {
-                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Photo.png";
-                    }
+                    System.out.println(path);
 
                     int inputSize = intent.getExtras().getInt("inputSize");
                     int outputSize = intent.getExtras().getInt("outputSize");
