@@ -1,5 +1,5 @@
-# Shapeify
-Shapeify is a mobile version of the Primitive library developed by @fogleman to generate SVG images from raster ones. Developed by @rahulk64 and @jordanbuchman
+# Vectrize
+Vectrize is a mobile version of the Primitive library developed by @fogleman to generate SVG images from raster ones. Developed by @rahulk64 and @jordanbuchman
 
 # What It Does
 This app reproduces images with geometric primitives.
