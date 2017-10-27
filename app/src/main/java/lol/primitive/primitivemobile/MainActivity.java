@@ -45,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
     private Activity act = this;
     private final int PICK_IMAGE_REQUEST = 1;
     private final int TAKE_PICTURE_REQUEST = 115;
+    private final int RETURN_ACTIVITY = 5;
     Uri imageUri;
 
     private String selectedImagePath;
     private String filemanagerstring;
+
+    RecyclerView recyclerView;
+    ArrayList<CreateList> galleryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Image Gallery Initialization
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
+        recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         ArrayList<CreateList> createLists = prepareData();
-        final ArrayList<CreateList> galleryList = createLists;
+        galleryList = createLists;
         MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
         recyclerView.setAdapter(adapter);
 
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                         //Send ArrayList of type ImageModel to show in Fullscreen Gallery
                         intent.putParcelableArrayListExtra("data", data);
                         intent.putExtra("pos", position);
-                        startActivity(intent);
+                        startActivityForResult(intent, RETURN_ACTIVITY);
                     }
                 }));
 
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_about:
                 Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(aboutIntent);
+                startActivityForResult(aboutIntent, RETURN_ACTIVITY);
                 return true;
 //            case R.id.action_help:
 //                return true;
@@ -158,9 +162,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Uri selectedImageUri;
-        InputStream inputStream;
 
         switch(requestCode) {
+            case RETURN_ACTIVITY:
+                ArrayList<CreateList> createLists = prepareData();
+                galleryList = createLists;
+                MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
+                recyclerView.setAdapter(adapter);
+
+                break;
             case PICK_IMAGE_REQUEST:
                 if (resultCode == RESULT_OK) {
                     selectedImageUri = data.getData();
@@ -199,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Intent myIntent1 = new Intent(MainActivity.this, PreviewActivity.class);
                     myIntent1.putExtra("uriKey", selectedImageUri);
-                    MainActivity.this.startActivity(myIntent1);
+                    MainActivity.this.startActivityForResult(myIntent1, RETURN_ACTIVITY);
                 }
 
                 break;
@@ -289,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 myIntent1.putExtra("key", filemanagerstring);
             }
 
-            MainActivity.this.startActivity(myIntent1);
+            MainActivity.this.startActivityForResult(myIntent1, RETURN_ACTIVITY);
         }
     }
 
