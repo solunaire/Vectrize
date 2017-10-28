@@ -46,6 +46,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         int color = 0xFF00FFFF;
         imageProgress.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         imageProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        imageProgress.bringToFront();
         final int totalNumShapes = intent.getExtras().getInt("count");
 
         final ImageView imageView = findViewById(R.id.finished_image_preview);
