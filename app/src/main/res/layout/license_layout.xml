@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@null"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp">
+
+    <TextView
+        android:id="@+id/library"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="18sp"
+        android:layout_marginStart="@dimen/license_margin"
+        android:layout_marginEnd="@dimen/license_margin"/>
+
+    <TextView
+        android:id="@+id/license"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="12sp"
+        android:layout_marginStart="@dimen/license_margin"
+        android:layout_marginEnd="@dimen/license_margin" />
+
+    <View android:id="@+id/separator"
+        android:background="@color/black"
+        android:layout_width = "fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/about_margin"/>
+
+
+</LinearLayout>
