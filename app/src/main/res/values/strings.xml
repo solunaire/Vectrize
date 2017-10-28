@@ -57,7 +57,7 @@
     <string name="about">About Us</string>
     <string name="about_text">Vectrize is a mobile version of the Primitive library,
     which generates SVG images from input photographs or images. These images are
-    provided as input to reproduce the targe images with geometric primitives.
+    provided as input to reproduce the target images with geometric primitives.
     Vectrize was built by Jordan Buchman and Rahul Krishnan of Solunaire.</string>
     <string name="licenses">Licenses</string>
     <string-array name="licenses">
