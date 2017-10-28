@@ -1,6 +1,5 @@
 package lol.primitive.primitivemobile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class LicensesAdapter extends RecyclerView.Adapter<LicensesAdapter.ViewHolder> {
@@ -22,6 +19,7 @@ public class LicensesAdapter extends RecyclerView.Adapter<LicensesAdapter.ViewHo
         public TextView mTextView;
         public TextView mTextView2;
         public View layout;
+
         public ViewHolder(View v) {
             super(v);
             layout = v;

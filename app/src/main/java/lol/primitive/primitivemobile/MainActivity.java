@@ -2,12 +2,9 @@ package lol.primitive.primitivemobile;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,14 +21,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -58,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.v("Activity", "MainActivity Started");
 
         //Intent Data when Starting from Other Activities (not new run)
         Intent intent1 = getIntent();
@@ -229,9 +222,9 @@ public class MainActivity extends AppCompatActivity {
                 filePath = photoFile.getPath();
 
             } catch (FileNotFoundException e) {
-                // log
+                e.printStackTrace();
             } catch (IOException e) {
-                // log
+                e.printStackTrace();
             }finally {
                 try {
                     if(inputStream != null) {
@@ -280,8 +273,6 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = managedQuery(uri, projection, null, null, null);
         if(cursor!=null)
         {
-            //HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            //THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -308,14 +299,6 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         ArrayList<CreateList> theimage = new ArrayList<>();
         File f = new File(dir);
-        if(!f.exists()) {f.mkdirs(); }
-
-        //Directory Tests
-        Log.v("Files", f.exists()+"");
-        Log.v("Files", f.isDirectory()+"");
-        Log.v("Files", f.listFiles()+"");
-        Log.v("Files", dir);
-
         File file[] = f.listFiles();
 
         //Sort file[] based on Date Last Modified
@@ -346,20 +329,7 @@ public class MainActivity extends AppCompatActivity {
     /* Checks if external storage is available for read and write */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
-    }
-
-    /* Checks if external storage is available to at least read */
-    public boolean isExternalStorageReadable() {
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) ||
-                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     public void newCameraImage() {
@@ -370,12 +340,14 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE_REQUEST);
     }
+
     public void newGalleryImage() {
         //Load Image through Gallery (Intent)
         Intent intent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
+
     public void newImage() {
         //Either Pick Image Using Camera or from Gallery
         AlertDialog.Builder builder = new AlertDialog.Builder(act);

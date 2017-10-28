@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
@@ -126,41 +125,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Use Below Code to Add Saving File Choice Name Option
-//                final Dialog commentDialog = new Dialog(FinishedPreviewActivity.this);
-//                commentDialog.setContentView(R.layout.modal_save);
-//                Button okBtn = (Button) commentDialog.findViewById(R.id.ok);
-//                boolean isFile = false;
-//
-//                okBtn.setOnClickListener(new View.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View v) {
-//                        EditText nameText = (EditText) findViewById(R.id.save_body);
-//                        String fileName = nameText.getText().toString();
-//                        File tempFile = new File(DIR, fileName);
-//
-//                        if(tempFile.exists()) {
-//                            Toast.makeText(FinishedPreviewActivity.this, "File Name Already Exists", Toast.LENGTH_SHORT).show();
-//                        } else {
-//
-//                        }
-//                        commentDialog.dismiss();
-//                    }
-//                });
-//                Button defaultBtn = (Button) commentDialog.findViewById(R.id.use_default);
-//                defaultBtn.setOnClickListener(new View.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View v) {
-
-//                        }
-//
-//                        isFile = true;
-//                        commentDialog.dismiss();
-//                    }
-//                });
-
                 //Saves Image as New Image with New Number (similar to hashing)
                 try {
                     File file = File.createTempFile("Primitive-",".jpg",new File(DIR));
@@ -170,7 +134,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     Bitmap bitmap = Bitmap.createBitmap(pictureDrawable.getIntrinsicWidth(), pictureDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
                     canvas.drawPicture(pictureDrawable.getPicture());
-                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream); //TODO: change to SVG saving
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream);
 
                     stream.flush();
                     stream.close();

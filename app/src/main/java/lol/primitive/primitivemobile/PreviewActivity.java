@@ -10,14 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import static android.content.Intent.getIntent;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -32,8 +29,6 @@ public class PreviewActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        Log.v("Activity", "PreviewActivity Started");
 
         //Load Image into ImageView to Preview before Running Primitive
         Intent intent1 = getIntent();
@@ -78,9 +73,9 @@ public class PreviewActivity extends AppCompatActivity {
                 imageView.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
-                // handle errors
+                e.printStackTrace();
             } catch (IOException e) {
-                // handle errors
+                e.printStackTrace();
             } finally {
                 if (parcelFD != null)
                     try {
@@ -114,9 +109,7 @@ public class PreviewActivity extends AppCompatActivity {
                 }
 
                 startActivity(optionsIntent);
-
-                //Can't press back to load Preview Activity
-                finish();
+                finish(); //Can't press back to load Preview Activity
             }
         });
     }

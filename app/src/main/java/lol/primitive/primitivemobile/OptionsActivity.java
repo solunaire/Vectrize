@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -81,9 +80,9 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                 imageView.setImageBitmap(bitmap);
 
             } catch (FileNotFoundException e) {
-                // handle errors
+                e.printStackTrace();
             } catch (IOException e) {
-                // handle errors
+                e.printStackTrace();
             } finally {
                 if (parcelFD != null)
                     try {
@@ -190,8 +189,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                     }
                     finishIntent.putExtra("alpha", ((DiscreteSeekBar) findViewById(R.id.shape_alpha_slider)).getProgress());
                     finishIntent.putExtra("repeat", ((DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider)).getProgress() - 1);
-                    //TODO: Change to SVG Image
-                    //                finishIntent.putExtra("svg_image", img);
                     startActivity(finishIntent);
                     finish();
                 }
