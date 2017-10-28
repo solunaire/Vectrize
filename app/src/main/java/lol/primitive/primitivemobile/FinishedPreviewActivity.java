@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -41,6 +43,9 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         final ProgressBar imageProgress = (ProgressBar) findViewById(R.id.progressBar);
         imageProgress.setMax(100);
         imageProgress.setProgress(0);
+        int color = 0xFF00FFFF;
+        imageProgress.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        imageProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         final int totalNumShapes = intent.getExtras().getInt("count");
 
         final ImageView imageView = findViewById(R.id.finished_image_preview);
