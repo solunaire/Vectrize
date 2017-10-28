@@ -6,5 +6,6 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="about_margin">8dp</dimen>
     <dimen name="license_margin">16dp</dimen>
+    <dimen name="title">36sp</dimen>
     <dimen name="about_title_size">24sp</dimen>
 </resources>
