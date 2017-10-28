@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -42,6 +43,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         final ProgressBar imageProgress = (ProgressBar) findViewById(R.id.progressBar);
         imageProgress.setMax(100);
         imageProgress.setProgress(0);
+
         int color = 0xFF00FFFF;
         imageProgress.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         imageProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
@@ -62,6 +64,12 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
+                            if(!saveBtn.isEnabled()) {
+                                saveBtn.setClickable(true);
+                                saveBtn.setEnabled(true);
+                            }
+
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
                             } else {
@@ -95,7 +103,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     Primitivemobile.processImage(path,inputSize,outputSize,count,mode,background,alpha,repeat,file.getAbsolutePath());
                 }
             }).start();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,6 +129,8 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         });
 
         Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
+        saveBtn.setClickable(false);
+        saveBtn.setEnabled(false);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
