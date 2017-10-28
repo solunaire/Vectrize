@@ -182,18 +182,14 @@
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:layout_alignParentStart="true"
-            android:id="@+id/cancelOptionsBtn"
-            android:textColor="@color/white"
-            android:background="@drawable/button_red"/>
+            android:id="@+id/cancelOptionsBtn" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/run"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/white"
-            android:id="@+id/runOptionsBtn"
-            android:background="@drawable/button_blue"/>
+            android:id="@+id/runOptionsBtn"/>
 
     </RelativeLayout>
 
