@@ -107,15 +107,6 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         shapesSpinner.setAdapter(adapter);
         shapesSpinner.setOnItemSelectedListener(this);
 
-        //Working Size Spinner Initialization
-        Spinner sizesSpinner = (Spinner) findViewById(R.id.working_size_spinner);
-        ArrayAdapter<CharSequence> sizesAdapter = ArrayAdapter.createFromResource(this,
-                R.array.sizes_spinner_array, android.R.layout.simple_spinner_item);
-        sizesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sizesSpinner.setAdapter(sizesAdapter);
-        sizesSpinner.setOnItemSelectedListener(this);
-
-        String background = "";
         //Color Picker Initialization
         final View colorPicker = findViewById(R.id.colorPickerBtn);
         colorPicker.setOnClickListener(new View.OnClickListener() {
