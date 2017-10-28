@@ -211,12 +211,20 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
     private boolean isNotInteger(String str) {
         int size = str.length();
 
+        if(size > 4) {
+            return false;
+        }
+
         for (int i = 0; i < size; i++) {
             if (!Character.isDigit(str.charAt(i))) {
                 return false;
             }
         }
 
+        int num = Integer.parseInt(str);
+        if(num < 1 || num >= 1000) {
+            return false;
+        }
         return true;
     }
 }
