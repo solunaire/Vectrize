@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Primitive-Android.iml" filepath="$PROJECT_DIR$/Primitive-Android.iml" />
       <module fileurl="file://C:\Users\rahul\Documents\AndroidStudioProjects\PrimitiveMobile\Primitive-Android.iml" filepath="C:\Users\rahul\Documents\AndroidStudioProjects\PrimitiveMobile\Primitive-Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PrimitiveMobile.iml" filepath="$PROJECT_DIR$/PrimitiveMobile.iml" />
+      <module fileurl="file://C:\Users\jordan\StudioProjects\Primitive-Android\PrimitiveMobile.iml" filepath="C:\Users\jordan\StudioProjects\Primitive-Android\PrimitiveMobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/primitivemobile/primitivemobile.iml" filepath="$PROJECT_DIR$/primitivemobile/primitivemobile.iml" />
     </modules>
