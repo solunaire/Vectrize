@@ -38,7 +38,6 @@
     <string name="number_field_required">Pleast Enter an Integer Between 1&#8211;999</string>
 
     <string-array name="shapes_spinner_array">
-        <item>Combo</item>
         <item>Triangles</item>
         <item>Rectangles</item>
         <item>Ellipses</item>

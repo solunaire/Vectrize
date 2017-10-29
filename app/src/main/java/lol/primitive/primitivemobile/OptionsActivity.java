@@ -181,7 +181,7 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                     finishIntent.putExtra("inputSize", 256);
                     finishIntent.putExtra("outputSize", 1024);
                     finishIntent.putExtra("count", numberShapes);
-                    finishIntent.putExtra("mode", shapesSpinner.getSelectedItemPosition());
+                    finishIntent.putExtra("mode", shapesSpinner.getSelectedItemPosition()+1);
                     if (((CheckBox) findViewById(R.id.backgroundCheckBox)).isChecked()) {
                         finishIntent.putExtra("background", ((ColorDrawable) colorPicker.getBackground()).getColor());
                     } else {

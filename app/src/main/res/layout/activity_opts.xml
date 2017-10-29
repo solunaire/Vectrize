@@ -122,7 +122,7 @@
             android:id="@+id/shapes_iteration_slider"
             app:dsb_min="1"
             app:dsb_max="20"
-            app:dsb_value="1" />
+            app:dsb_value="5" />
 
     </LinearLayout>
 
