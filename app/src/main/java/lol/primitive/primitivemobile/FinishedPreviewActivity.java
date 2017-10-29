@@ -1,7 +1,12 @@
 package lol.primitive.primitivemobile;
 
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
@@ -12,8 +17,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.FileObserver;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,8 +40,17 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
     private static final String DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
 
+    private int count = 0;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        // Register mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("updateImage"));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finished_preview);
@@ -52,60 +68,6 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
         final ImageView imageView = findViewById(R.id.finished_image_preview);
 
-        final File file;
-        try {
-            file = File.createTempFile("primitive-output", null, this.getCacheDir());
-
-            FileObserver observer = new FileObserver(file.getAbsolutePath(),FileObserver.MODIFY) { // set up a file observer to watch this directory on sd card
-                int count = 0;
-                @Override
-                public void onEvent(int event, String nullFile) {
-                    Sharp.loadFile(file).into(imageView);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
-                            if(!saveBtn.isEnabled()) {
-                                saveBtn.setClickable(true);
-                                saveBtn.setEnabled(true);
-                            }
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
-                            } else {
-                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
-                            }
-                        }
-                    });
-                }
-            };
-            observer.startWatching();
-
-            new Thread(new Runnable() {
-                public void run() {
-                    String path = intent.getExtras().getString("path");
-                    if(path == null) {
-                        Uri temp = (Uri) intent.getExtras().get("uri");
-                        String uriPath = temp.getPath();
-                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                                + uriPath.substring(uriPath.lastIndexOf("/"));
-                    }
-
-                    System.out.println(path);
-
-                    int inputSize = intent.getExtras().getInt("inputSize");
-                    int outputSize = intent.getExtras().getInt("outputSize");
-                    int count = intent.getExtras().getInt("count");
-                    int mode = intent.getExtras().getInt("mode");
-                    String background = intent.getExtras().getString("background");
-                    int alpha = intent.getExtras().getInt("alpha");
-                    int repeat = intent.getExtras().getInt("repeat");
-                    Primitivemobile.processImage(path,inputSize,outputSize,count,mode,background,alpha,repeat,file.getAbsolutePath());
-                }
-            }).start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         Button cancelBtn = (Button) findViewById(R.id.cancelFinishedBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -158,8 +120,79 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     Toast.makeText(FinishedPreviewActivity.this, "Unable to save image", Toast.LENGTH_SHORT).show();
                     finish(); //Return to MainActivity
                 }
+
+
             }
         });
+        Intent intent2 = new Intent(this, PrimitiveService.class);
+        intent2.putExtra("inputSize",intent.getExtras().getInt("inputSize"));
+        intent2.putExtra("outputSize",intent.getExtras().getInt("outputSize"));
+        intent2.putExtra("count",intent.getExtras().getInt("count"));
+        intent2.putExtra("mode",intent.getExtras().getInt("mode"));
+        intent2.putExtra("background", intent.getExtras().getString("background"));
+        intent2.putExtra("alpha", intent.getExtras().getInt("alpha"));
+        intent2.putExtra("repeat", intent.getExtras().getInt("repeat"));
+        intent2.putExtra("uri",(Uri) intent.getExtras().get("uri"));
+        intent2.putExtra("path",intent.getExtras().getString("path"));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent2);
+        }
+        else{
+            startService(intent2);
+        }
+
+
+
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Register mMessageReceiver to receive messages.
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("updateImage"));
+    }
+
+    // handler for received Intents for the "my-event" event
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Intent intent2 = getIntent();
+            // Extract data included in the Intent
+            String data = intent.getStringExtra("data");
+            Log.d("receiver", "Got data: " + data);
+            final ImageView imageView = findViewById(R.id.finished_image_preview);
+            final ProgressBar imageProgress = (ProgressBar) findViewById(R.id.progressBar);
+            final int totalNumShapes = intent2.getExtras().getInt("count");
+                Sharp.loadString(data).into(imageView);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Button saveBtn = (Button) findViewById(R.id.saveFinishedBtn);
+                        if(!saveBtn.isEnabled()) {
+                            saveBtn.setClickable(true);
+                            saveBtn.setEnabled(true);
+                        }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
+                        } else {
+                            imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
+                        }
+                    }
+                });
+            }
+    };
+
+    /*
+    @Override
+    protected void onPause() {
+        // Unregister since the activity is not visible
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        super.onPause();
+    }
+    */
 }

@@ -25,11 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AboutActivity"
             android:label="@string/about"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
@@ -55,6 +54,11 @@
         <activity
             android:name=".FinishedPreviewActivity"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".PrimitiveService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
