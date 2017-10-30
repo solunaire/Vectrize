@@ -17,12 +17,12 @@ android {
         applicationId "com.solunaire.vectrize"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 3
+        versionCode 4
         versionName "0.7.0"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

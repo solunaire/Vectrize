@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private final int RETURN_ACTIVITY = 5;
     Uri imageUri;
 
+    private final int CAMERA_PERMISSIONS_REQUEST = 1;
+    private final int STORAGE_PERMISSIONS_REQUEST = 2;
+
     private String selectedImagePath;
     private String filemanagerstring;
 
@@ -55,42 +58,60 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults){
-        if (grantResults.length == 0 || grantResults[0] == PERMISSION_DENIED){
-            return;
+        switch (requestCode) {
+            case CAMERA_PERMISSIONS_REQUEST:
+                if (grantResults.length == 0 || grantResults[0] == PERMISSION_DENIED) {
+                    break;
+                }
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                File photoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Photo.png");
+                imageUri = FileProvider.getUriForFile(MainActivity.this,
+                        BuildConfig.APPLICATION_ID + ".provider", photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+                break;
+
+            case STORAGE_PERMISSIONS_REQUEST:
+                if (grantResults.length == 0 || grantResults[0] == PERMISSION_DENIED) {
+                    break;
+                }
+                //Image Gallery Initialization
+                recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+                ArrayList<CreateList> createLists = prepareData();
+                galleryList = createLists;
+                MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
+                recyclerView.setAdapter(adapter);
+
+                if (galleryList.size() == 0) {
+                    findViewById(R.id.no_saved_imageview).setVisibility(View.VISIBLE);
+                }
+
+                //On ImageClick Listener
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                                ArrayList<ImageModel> data = new ArrayList<>();
+                                //Add images & data into Arraylist of type ImageModel
+                                for (int i = 0; i < galleryList.size(); i++) {
+                                    ImageModel im = new ImageModel();
+                                    im.setUrl(dir + "/" + galleryList.get(i).getImage_file());
+                                    data.add(im);
+                                }
+
+                                //Send ArrayList of type ImageModel to show in Fullscreen Gallery
+                                intent.putParcelableArrayListExtra("data", data);
+                                intent.putExtra("pos", position);
+                                startActivityForResult(intent, RETURN_ACTIVITY);
+                            }
+                        }));
+                break;
         }
-        //Image Gallery Initialization
-        recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        ArrayList<CreateList> createLists = prepareData();
-        galleryList = createLists;
-        MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
-        recyclerView.setAdapter(adapter);
 
-        if (galleryList.size() == 0) {
-            findViewById(R.id.no_saved_imageview).setVisibility(View.VISIBLE);
-        }
 
-        //On ImageClick Listener
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
-                new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                        ArrayList<ImageModel> data = new ArrayList<>();
-                        //Add images & data into Arraylist of type ImageModel
-                        for (int i = 0; i < galleryList.size(); i++) {
-                            ImageModel im = new ImageModel();
-                            im.setUrl(dir + "/" + galleryList.get(i).getImage_file());
-                            data.add(im);
-                        }
-
-                        //Send ArrayList of type ImageModel to show in Fullscreen Gallery
-                        intent.putParcelableArrayListExtra("data", data);
-                        intent.putExtra("pos", position);
-                        startActivityForResult(intent, RETURN_ACTIVITY);
-                    }
-                }));
     }
 
     @Override
@@ -137,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSIONS_REQUEST);
     }
 
     //Kabob Menu Initialization
@@ -351,12 +372,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void newCameraImage() {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Photo.png");
-        imageUri = FileProvider.getUriForFile(MainActivity.this,
-                BuildConfig.APPLICATION_ID + ".provider", photoFile);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+        ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERMISSIONS_REQUEST);
     }
 
     public void newGalleryImage() {
