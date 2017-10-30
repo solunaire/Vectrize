@@ -41,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     //ArrayList containing ImageModels (implementing Parcelable) to store images & data
     public ArrayList<ImageModel> data = new ArrayList<>();
     int pos; //current index of image in RecyclerView (and therefore data)
+    static boolean toFinish = false;
 
     Toolbar toolbar;
 
@@ -51,14 +52,16 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        if(toFinish) {
+            finish();
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Integer.decode("#FFFFFF")));
 
         data = getIntent().getParcelableArrayListExtra("data");
         pos = getIntent().getIntExtra("pos", 0);
-
-        setTitle(data.get(pos).getName());
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), data);
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -253,6 +256,7 @@ public class DetailActivity extends AppCompatActivity {
                                 data.remove(pos);
                                 mSectionsPagerAdapter.notifyDataSetChanged();
                                 if(data.size() == 0) {
+                                    toFinish = true;
                                     finish();
                                 } else if(pos+1 == data.size()) {
                                     mViewPager.setCurrentItem(--pos);

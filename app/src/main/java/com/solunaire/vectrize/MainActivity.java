@@ -84,9 +84,14 @@ public class MainActivity extends AppCompatActivity {
                 MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
                 recyclerView.setAdapter(adapter);
 
+
                 if (galleryList.size() == 0) {
                     findViewById(R.id.no_saved_imageview).setVisibility(View.VISIBLE);
                 }
+                else{
+                    findViewById(R.id.no_saved_imageview).setVisibility(View.INVISIBLE);
+                }
+
 
                 //On ImageClick Listener
                 recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
@@ -201,6 +206,12 @@ public class MainActivity extends AppCompatActivity {
                 galleryList = createLists;
                 MyAdapter adapter = new MyAdapter(getApplicationContext(), createLists);
                 recyclerView.setAdapter(adapter);
+                if (galleryList.size() == 0) {
+                    findViewById(R.id.no_saved_imageview).setVisibility(View.VISIBLE);
+                }
+                else{
+                    findViewById(R.id.no_saved_imageview).setVisibility(View.INVISIBLE);
+                }
 
                 break;
             case PICK_IMAGE_REQUEST:
@@ -336,8 +347,10 @@ public class MainActivity extends AppCompatActivity {
     //Method to prepare gallery
     private ArrayList<CreateList> prepareData(){
 
+
         ArrayList<CreateList> theimage = new ArrayList<>();
         File f = new File(dir);
+        f.mkdirs();
         File file[] = f.listFiles();
 
         //Sort file[] based on Date Last Modified
