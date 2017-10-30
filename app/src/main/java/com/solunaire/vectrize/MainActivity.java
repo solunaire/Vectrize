@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults){
-        if (grantResults[0] == PERMISSION_DENIED){
+        if (grantResults.length > 0 && grantResults[0] == PERMISSION_DENIED){
             return;
         }
         //Image Gallery Initialization
@@ -136,9 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     //Kabob Menu Initialization
