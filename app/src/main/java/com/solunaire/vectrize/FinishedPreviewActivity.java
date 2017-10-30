@@ -149,7 +149,11 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
                     Uri savedImageURI = Uri.parse(file.getAbsolutePath());
                     Toast.makeText(FinishedPreviewActivity.this, "Image saved in internal storage.\n" + savedImageURI, Toast.LENGTH_SHORT).show();
-                    finish(); //Return to MainActivity
+
+                    Intent intent = new Intent(FinishedPreviewActivity.this, MainActivity.class);
+                    intent.putExtra("detail", 0);
+                    startActivity(intent);
+                    finish();
 
                 }
                 catch (IOException e){

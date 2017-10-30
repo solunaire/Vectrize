@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
             newImage();
         }
 
+        else if (intent1.hasExtra("detail") && intent1.getExtras().getInt("detail") == 1) {
+            openRecentImage();
+            finish();
+        }
+
         //Image Gallery Initialization
         recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
@@ -364,5 +369,21 @@ public class MainActivity extends AppCompatActivity {
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public void openRecentImage() {
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        galleryList = prepareData();
+        ArrayList<ImageModel> data = new ArrayList<>();
+        //Add images & data into Arraylist of type ImageModel
+        ImageModel im = new ImageModel();
+        im.setUrl(dir + "/" + galleryList.get(0).getImage_file());
+        data.add(im);
+
+        //Send ArrayList of type ImageModel to show in Fullscreen Gallery
+        intent.putParcelableArrayListExtra("data", data);
+        intent.putExtra("pos", 0);
+        startActivity(intent);
+        finish();
     }
 }
