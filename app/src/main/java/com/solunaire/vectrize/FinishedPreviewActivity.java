@@ -151,7 +151,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     Toast.makeText(FinishedPreviewActivity.this, "Image saved in internal storage.\n" + savedImageURI, Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(FinishedPreviewActivity.this, MainActivity.class);
-                    intent.putExtra("detail", 0);
+                    intent.putExtra("detail", 1);
                     startActivity(intent);
                     finish();
 
