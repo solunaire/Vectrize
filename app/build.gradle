@@ -17,7 +17,7 @@ android {
         applicationId "com.solunaire.vectrize"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
+        versionCode 3
         versionName "0.7.0"
     }
     buildTypes {

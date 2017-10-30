@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults){
-        if (grantResults.length > 0 && grantResults[0] == PERMISSION_DENIED){
+        if (grantResults.length == 0 || grantResults[0] == PERMISSION_DENIED){
             return;
         }
         //Image Gallery Initialization
