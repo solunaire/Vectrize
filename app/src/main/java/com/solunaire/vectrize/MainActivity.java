@@ -34,6 +34,9 @@ import java.util.Comparator;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 public class MainActivity extends AppCompatActivity {
 
     private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/primitive";
@@ -50,21 +53,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<CreateList> galleryList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //Intent Data when Starting from Other Activities (not new run)
-        Intent intent1 = getIntent();
-        if (intent1.hasExtra("img_choose") && intent1.getExtras().getBoolean("img_choose")) {
-            newImage();
+    public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults){
+        if (grantResults[0] == PERMISSION_DENIED){
+            return;
         }
-
-        else if (intent1.hasExtra("detail") && intent1.getExtras().getInt("detail") == 1) {
-            openRecentImage();
-            finish();
-        }
-
         //Image Gallery Initialization
         recyclerView = (RecyclerView) findViewById(R.id.imagegallery);
         recyclerView.setHasFixedSize(true);
@@ -98,6 +90,25 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(intent, RETURN_ACTIVITY);
                     }
                 }));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        //Intent Data when Starting from Other Activities (not new run)
+        Intent intent1 = getIntent();
+        if (intent1.hasExtra("img_choose") && intent1.getExtras().getBoolean("img_choose")) {
+            newImage();
+        }
+
+        else if (intent1.hasExtra("detail") && intent1.getExtras().getInt("detail") == 1) {
+            openRecentImage();
+            finish();
+        }
+
 
         //Toolbar Initialization
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -125,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
     }
 
     //Kabob Menu Initialization
@@ -301,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Method to prepare gallery
     private ArrayList<CreateList> prepareData(){
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+
         ArrayList<CreateList> theimage = new ArrayList<>();
         File f = new File(dir);
         File file[] = f.listFiles();
