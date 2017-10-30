@@ -55,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
         if(toFinish) {
             finish();
         }
+        setTitle("");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
