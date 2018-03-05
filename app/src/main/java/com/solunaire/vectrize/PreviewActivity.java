@@ -31,10 +31,12 @@ public class PreviewActivity extends AppCompatActivity {
 
         //Load Image into ImageView to Preview before Running Primitive
         Intent intent1 = getIntent();
+        ImageView imageView = (ImageView) findViewById(R.id.image_preview);
+
         picturePath = intent1.getExtras().getString("key");
         pictureUri = (Uri) intent1.getExtras().get("uriKey");
         System.out.println(picturePath);
-        ImageView imageView = (ImageView) findViewById(R.id.image_preview);
+
         if(picturePath != null) {
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             usesPicPath = true;

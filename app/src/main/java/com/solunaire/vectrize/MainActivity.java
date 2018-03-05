@@ -2,6 +2,8 @@ package com.solunaire.vectrize;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,10 +19,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -127,15 +132,27 @@ public class MainActivity extends AppCompatActivity {
 
         //Intent Data when Starting from Other Activities (not new run)
         Intent intent1 = getIntent();
+        String action = intent1.getAction();
+        String type = intent1.getType();
         if (intent1.hasExtra("img_choose") && intent1.getExtras().getBoolean("img_choose")) {
             newImage();
-        }
-
-        else if (intent1.hasExtra("detail") && intent1.getExtras().getInt("detail") == 1) {
+        } else if (intent1.hasExtra("detail") && intent1.getExtras().getInt("detail") == 1) {
             openRecentImage();
             finish();
         }
 
+        //Receiving Simple Data from Other Apps
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                Uri imageUri = (Uri) intent1.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    Intent optionsIntent = new Intent(MainActivity.this, PreviewActivity.class);
+                    String path = getFilePathFromURI(this.getApplicationContext(), imageUri);
+                    optionsIntent.putExtra("key", path);
+                    startActivity(optionsIntent);
+                }
+            }
+        }
 
         //Toolbar Initialization
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -427,5 +444,40 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("pos", 0);
         startActivity(intent);
         finish();
+    }
+
+    public String getFilePathFromURI(Context context, Uri contentUri) {
+        //copy file and send new file path
+        String fileName = getFileName(contentUri);
+        if (!TextUtils.isEmpty(fileName)) {
+            File copyFile = new File(getCacheDir() + File.separator + fileName);
+            copy(context, contentUri, copyFile);
+            return copyFile.getAbsolutePath();
+        }
+        return null;
+    }
+
+    public String getFileName(Uri uri) {
+        if (uri == null) return null;
+        String fileName = null;
+        String path = uri.getPath();
+        int cut = path.lastIndexOf('/');
+        if (cut != -1) {
+            fileName = path.substring(cut + 1);
+        }
+        return fileName;
+    }
+
+    public void copy(Context context, Uri srcUri, File dstFile) {
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(srcUri);
+            if (inputStream == null) return;
+            OutputStream outputStream = new FileOutputStream(dstFile);
+            IOUtils.copy(inputStream, outputStream);
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

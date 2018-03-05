@@ -34,20 +34,20 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finished_preview);
         final Intent intent = getIntent();
 
+        final int totalNumShapes = intent.getExtras().getInt("count");
+
         final ProgressBar imageProgress = (ProgressBar) findViewById(R.id.progressBar);
-        imageProgress.setMax(100);
+        imageProgress.setMax(totalNumShapes);
         imageProgress.setProgress(0);
 
         int color = 0xFF00FFFF;
         imageProgress.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         imageProgress.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         imageProgress.bringToFront();
-        final int totalNumShapes = intent.getExtras().getInt("count");
 
         final ImageView imageView = findViewById(R.id.finished_image_preview);
 
@@ -59,6 +59,7 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                 int count = 0;
                 @Override
                 public void onEvent(int event, String nullFile) {
+                    ++count;
                     Sharp.loadFile(file).into(imageView);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -70,9 +71,9 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                             }
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100), true);
+                                imageProgress.setProgress(count, true);
                             } else {
-                                imageProgress.setProgress((int) ((++count / (double) totalNumShapes) * 100));
+                                imageProgress.setProgress(count);
                             }
                         }
                     });
@@ -85,9 +86,15 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     String path = intent.getExtras().getString("path");
                     if(path == null) {
                         Uri temp = (Uri) intent.getExtras().get("uri");
-                        String uriPath = temp.getPath();
-                        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                                + uriPath.substring(uriPath.lastIndexOf("/"));
+                        String uri = temp.toString();
+                        if (uri.startsWith("file://")) {
+                            File selectedImage = new File(temp.getPath());
+                            path = selectedImage.getPath();
+                        } else {
+                            String uriPath = temp.getPath();
+                            path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                                    + uriPath.substring(uriPath.lastIndexOf("/"));
+                        }
                     }
 
                     System.out.println(path);
