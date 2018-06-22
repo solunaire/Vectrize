@@ -190,6 +190,31 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
+        Button defaultButton = (Button) findViewById(R.id.resetButton);
+        defaultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shapesSpinner.setSelection(0);
+
+                DiscreteSeekBar transparency = (DiscreteSeekBar) findViewById(R.id.shape_alpha_slider);
+                transparency.setProgress(128);
+
+                DiscreteSeekBar width = (DiscreteSeekBar) findViewById(R.id.stroke_width_slider);
+                width.setProgress(1);
+
+                perIter.setProgress(5);
+
+                CheckBox background = (CheckBox) findViewById(R.id.backgroundCheckBox);
+                background.setChecked(false);
+
+                View backgroundColor = findViewById(R.id.colorPickerBtn);
+                backgroundColor.setBackgroundColor(Color.rgb(0, 0, 0));
+
+                EditText numIter = (EditText) findViewById(R.id.num_shapes_edit);
+                numIter.setText("");
+            }
+        });
+
         Button cancelBtn = (Button) findViewById(R.id.cancelOptionsBtn);
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
