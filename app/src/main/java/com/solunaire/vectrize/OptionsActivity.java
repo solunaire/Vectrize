@@ -10,7 +10,9 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
@@ -136,6 +139,44 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
                             public void onClick(DialogInterface dialog, int which) {}
                         }).build().show();
             }
+        });
+
+        //For Total Shapes Counter
+        final EditText editText = (EditText) findViewById(R.id.num_shapes_edit);
+        final DiscreteSeekBar perIter = (DiscreteSeekBar) findViewById(R.id.shapes_iteration_slider);
+        final TextView numShapes = (TextView) findViewById(R.id.num_shapes);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().equals("")) {
+                    numShapes.setText("0");
+                } else {
+                    numShapes.setText(Integer.parseInt(editText.getText().toString())*perIter.getProgress() + "");
+                }
+            }
+        });
+
+        perIter.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                if(editText.getText().toString().equals("")) {
+                    numShapes.setText("0");
+                } else {
+                    numShapes.setText(Integer.parseInt(editText.getText().toString())*perIter.getProgress() + "");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) { }
         });
 
         //Button Initializations
