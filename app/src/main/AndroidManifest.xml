@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
@@ -24,27 +26,29 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AboutActivity"
             android:label="@string/about"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".DetailActivity"
+            android:name=".ImageActivity"
             android:label="@string/title_activity_detail"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".PreviewActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OptionsActivity"
             android:screenOrientation="portrait" />
@@ -62,6 +66,7 @@
         <activity
             android:name=".FinishedPreviewActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".DetailsActivity"></activity>
     </application>
 
 </manifest>

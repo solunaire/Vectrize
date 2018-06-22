@@ -61,12 +61,26 @@
     Vectrize was built by Jordan Buchman and Rahul Krishnan of Solunaire.</string>
     <string name="licenses">Licenses</string>
     <string-array name="licenses">
-        <item>Primitive</item>          <item>MIT License</item>            <item>https://github.com/fogleman/primitive/blob/master/LICENSE.md</item>
-        <item>FAB Speed Dial</item>     <item>Apache License 2.0</item>     <item>https://github.com/yavski/fab-speed-dial/blob/master/LICENSE</item>
-        <item>Glide</item>              <item>Apache License 2.0</item>     <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
-        <item>PhotoView</item>          <item>Apache License 2.0</item>     <item>https://github.com/chrisbanes/PhotoView/blob/master/LICENSE</item>
-        <item>Discrete SeekBar</item>   <item>Apache License 2.0</item>     <item>https://github.com/AnderWeb/discreteSeekBar/blob/master/LICENSE</item>
-        <item>Color Picker</item>       <item>Apache License 2.0</item>     <item>https://github.com/QuadFlask/colorpicker</item>
-        <item>Sharp</item>              <item>Apache License 2.0</item>     <item>https://github.com/Pixplicity/sharp/blob/master/LICENSE</item>
+        <item>Primitive</item>
+        <item>MIT License</item>
+        <item>https://github.com/fogleman/primitive/blob/master/LICENSE.md</item>
+        <item>FAB Speed Dial</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/yavski/fab-speed-dial/blob/master/LICENSE</item>
+        <item>Glide</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
+        <item>PhotoView</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/chrisbanes/PhotoView/blob/master/LICENSE</item>
+        <item>Discrete SeekBar</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/AnderWeb/discreteSeekBar/blob/master/LICENSE</item>
+        <item>Color Picker</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/QuadFlask/colorpicker</item>
+        <item>Sharp</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/Pixplicity/sharp/blob/master/LICENSE</item>
     </string-array>
 </resources>

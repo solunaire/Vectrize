@@ -33,7 +33,7 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ShareActionProvider mShareActionProvider;
@@ -50,7 +50,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_image);
 
         if(toFinish) {
             finish();
@@ -118,7 +118,7 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_image, menu);
         MenuItem item = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 
@@ -231,7 +231,7 @@ public class DetailActivity extends AppCompatActivity {
         File imageFile = new File(data.get(pos).getUrl());
         Uri uriToImage = FileProvider.getUriForFile(
                 this, BuildConfig.APPLICATION_ID + ".provider", imageFile);
-        Intent shareIntent = ShareCompat.IntentBuilder.from(DetailActivity.this)
+        Intent shareIntent = ShareCompat.IntentBuilder.from(ImageActivity.this)
                 .setStream(uriToImage)
                 .getIntent();
         shareIntent.setData(uriToImage);
@@ -265,16 +265,16 @@ public class DetailActivity extends AppCompatActivity {
                                     mViewPager.setCurrentItem(pos);
                                 }
 
-                                Intent refreshIntent = new Intent(DetailActivity.this, DetailActivity.class);
+                                Intent refreshIntent = new Intent(ImageActivity.this, ImageActivity.class);
                                 refreshIntent.putParcelableArrayListExtra("data", data);
                                 refreshIntent.putExtra("pos", pos);
                                 startActivity(refreshIntent);
                                 finish();
 
-                                Toast.makeText(DetailActivity.this, "File Deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ImageActivity.this, "File Deleted", Toast.LENGTH_SHORT).show();
                             } else {
                                 System.out.println("file not Deleted :" + currUri.getPath());
-                                Toast.makeText(DetailActivity.this, "Unable to Delete File. Please Report Bug", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ImageActivity.this, "Unable to Delete File. Please Report Bug", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
