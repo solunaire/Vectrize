@@ -20,7 +20,7 @@
     <string name="until_stopped">Run Until Stopped</string>
     <string name="until_iterations">Number of Iterations</string>
     <string name="until_score">Run Until Score:</string>
-    <string name="total_shapes">Total Number of Shapes</string>
+    <string name="total_shapes">Total Number of Shapes:</string>
     <string name="cancel">Cancel</string>
     <string name="run">Run</string>
     <string name="use_image">Use Image</string>
