@@ -11,6 +11,7 @@
     <string name="take_picture">Take Picture</string>
 
     <string name="other_image">Choose Another Image</string>
+    <string name="reset_defaults">Reset to Default Values</string>
     <string name="shape_alpha">Transparency</string>
     <string name="stroke_width">Stroke Width</string>
     <string name="shapes_iteration">Shapes Per Iteration</string>
