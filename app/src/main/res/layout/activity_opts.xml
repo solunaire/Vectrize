@@ -175,13 +175,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="14dp">
 
         <TextView
             android:id="@+id/text_shapes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/total_shapes"
+            android:textSize="18sp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -189,9 +190,9 @@
             android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:text="0"
-            android:textColor="@color/dark_grey"/>
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -199,7 +200,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="6dp">
 
         <Button
             android:layout_width="wrap_content"

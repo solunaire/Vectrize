@@ -147,14 +147,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
         final TextView numShapes = (TextView) findViewById(R.id.num_shapes);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //do nothing
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //do nothing
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -177,14 +173,10 @@ public class OptionsActivity extends AppCompatActivity implements AdapterView.On
             }
 
             @Override
-            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-                //do nothing
-            }
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                //do nothing
-            }
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) { }
         });
 
         //Button Initializations
