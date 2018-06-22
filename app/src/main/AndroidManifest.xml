@@ -43,14 +43,21 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ImageActivity"
-            android:label="@string/title_activity_detail"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".DetailsActivity"
+            android:label="@string/details"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity
             android:name=".PreviewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".OptionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FinishedPreviewActivity"
             android:screenOrientation="portrait" />
 
         <provider
@@ -62,11 +69,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <activity
-            android:name=".FinishedPreviewActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".DetailsActivity"></activity>
     </application>
 
 </manifest>
