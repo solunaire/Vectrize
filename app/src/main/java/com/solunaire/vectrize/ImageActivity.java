@@ -3,6 +3,7 @@ package com.solunaire.vectrize;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
@@ -106,6 +107,14 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
+        ImageButton detailsBtn = (ImageButton) findViewById(R.id.details);
+        detailsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                details();
+            }
+        });
+
         ImageButton delBtn = (ImageButton) findViewById(R.id.delete);
         delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +146,7 @@ public class ImageActivity extends AppCompatActivity {
                 shareIntent();
                 return true;
             case R.id.action_details:
-                System.out.println("pos = " + pos );
+                details();
                 return true;
             case R.id.action_delete:
                 delete();
@@ -227,7 +236,6 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void shareIntent() {
-        System.out.println("SHARING INTENT!!!");
         File imageFile = new File(data.get(pos).getUrl());
         Uri uriToImage = FileProvider.getUriForFile(
                 this, BuildConfig.APPLICATION_ID + ".provider", imageFile);
@@ -238,6 +246,22 @@ public class ImageActivity extends AppCompatActivity {
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.setType("image/jpeg");
         startActivity(Intent.createChooser(shareIntent, "Share image"));
+    }
+
+    private void details() {
+        Intent intent = new Intent(ImageActivity.this, DetailsActivity.class);
+
+        //Generate unique image ID from Image File
+        String fileNumber = null;
+        String path = data.get(pos).getUrl();
+        int cut = path.lastIndexOf('-');
+        int dot = path.lastIndexOf('.');
+        if (cut != -1) {
+            fileNumber = path.substring(cut + 1, dot);
+        }
+
+        intent.putExtra("id", fileNumber);
+        startActivity(intent);
     }
 
     private void delete() {
