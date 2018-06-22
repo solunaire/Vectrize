@@ -157,7 +157,7 @@
         <TextView android:id="@+id/radio_shapes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/until_shapes"
+            android:text="@string/until_iterations"
             android:textColor="@color/black"/>
 
         <EditText

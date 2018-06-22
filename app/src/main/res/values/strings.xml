@@ -17,7 +17,7 @@
     <string name="background_color">Background Color</string>
     <string name="working_size">Working Size:</string>
     <string name="until_stopped">Run Until Stopped</string>
-    <string name="until_shapes">Number of Shapes</string>
+    <string name="until_iterations">Number of Iterations</string>
     <string name="until_score">Run Until Score:</string>
     <string name="cancel">Cancel</string>
     <string name="run">Run</string>
