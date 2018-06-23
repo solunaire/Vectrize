@@ -111,7 +111,7 @@ public class ImageActivity extends AppCompatActivity {
         detailsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                details();
+                detailsIntent();
             }
         });
 
@@ -146,7 +146,7 @@ public class ImageActivity extends AppCompatActivity {
                 shareIntent();
                 return true;
             case R.id.action_details:
-                details();
+                detailsIntent();
                 return true;
             case R.id.action_delete:
                 delete();
@@ -248,19 +248,8 @@ public class ImageActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(shareIntent, "Share image"));
     }
 
-    private void details() {
+    private void detailsIntent() {
         Intent intent = new Intent(ImageActivity.this, DetailsActivity.class);
-
-        //Generate unique image ID from Image File
-        String fileNumber = null;
-        String path = data.get(pos).getUrl();
-        int cut = path.lastIndexOf('-');
-        int dot = path.lastIndexOf('.');
-        if (cut != -1) {
-            fileNumber = path.substring(cut + 1, dot);
-        }
-
-        intent.putExtra("id", fileNumber);
         startActivity(intent);
     }
 
