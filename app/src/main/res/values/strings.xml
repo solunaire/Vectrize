@@ -37,6 +37,8 @@
     <string name="image_preview_descr">Preview of Image to Vectorize</string>
     <string name="modal_save_hint">File Name</string>
 
+    <string name="default_text">Default Text</string>
+
     <string name="error_field_required">This Field is Required</string>
     <string name="number_field_required">Pleast Enter an Integer Between 1&#8211;999</string>
 

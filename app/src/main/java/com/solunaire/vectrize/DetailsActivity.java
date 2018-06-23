@@ -27,11 +27,13 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         DetailAdapter adapter = new DetailAdapter(this);
+
         adapter.list.add(new SingleRow("Title", "Description", R.drawable.alert));
         adapter.list.add(new SingleRow("Title 2", "Description 2", R.drawable.alert));
 
         ListView listView = (ListView) findViewById(R.id.details_listView);
         listView.setAdapter(adapter);
+        listView.setDivider(null);
     }
 
     @Override
