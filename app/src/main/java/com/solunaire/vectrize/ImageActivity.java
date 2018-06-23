@@ -250,6 +250,9 @@ public class ImageActivity extends AppCompatActivity {
 
     private void detailsIntent() {
         Intent intent = new Intent(ImageActivity.this, DetailsActivity.class);
+        Uri uriToImage = FileProvider.getUriForFile(
+                this, BuildConfig.APPLICATION_ID + ".provider", new File(data.get(pos).getUrl()));
+        intent.putExtra("uri", uriToImage.getPath());
         startActivity(intent);
     }
 

@@ -1,7 +1,11 @@
 package com.solunaire.vectrize;
 
 import android.content.Context;
+import android.media.ExifInterface;
 import android.media.Image;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +18,13 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
+
+    private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/primitive/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +34,24 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        String uri = getIntent().getStringExtra("uri");
         DetailAdapter adapter = new DetailAdapter(this);
+        String date = "Month 00, 2000 at 00:00 AM", fileID;
 
-        adapter.list.add(new SingleRow("Title", "Description", R.drawable.alert));
-        adapter.list.add(new SingleRow("Title 2", "Description 2", R.drawable.alert));
+        int cut = uri.lastIndexOf('/');
+        int dashCut = uri.lastIndexOf('-');
+        int dotCut = uri.lastIndexOf('.');
+        fileID = uri.substring(dashCut+1, dotCut);
+
+        adapter.list.add(new SingleRow("Date",
+                date,
+                R.drawable.calendar));
+        adapter.list.add(new SingleRow("File Path",
+                uri,
+                R.drawable.image));
+        adapter.list.add(new SingleRow("Unique ID",
+                fileID,
+                R.drawable.alert));
 
         ListView listView = (ListView) findViewById(R.id.details_listView);
         listView.setAdapter(adapter);
