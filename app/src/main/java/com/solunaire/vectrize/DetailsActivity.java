@@ -16,9 +16,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -34,20 +40,38 @@ public class DetailsActivity extends AppCompatActivity {
 
         String uri = getIntent().getStringExtra("uri");
         DetailAdapter adapter = new DetailAdapter(this);
-        String date = "Month 00, 2000 at 00:00 AM", fileID;
+        String date="";
+        long fileID;
 
         int dashCut = uri.lastIndexOf('-');
         int dotCut = uri.lastIndexOf('.');
-        fileID = uri.substring(dashCut+1, dotCut);
+        fileID = Long.parseLong(uri.substring(dashCut+1, dotCut));
 
-        adapter.list.add(new SingleRow("Date",
-                date,
-                R.drawable.calendar));
+        try {
+            String JSON = readJSON(this, "details.json");
+            JSONArray jsonArray = new JSONArray(JSON);
+
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                if(obj.getLong("ID") == fileID) {
+                    date = obj.getString("date");
+                    break;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(!date.equals("")) {
+            adapter.list.add(new SingleRow("Date",
+                    date,
+                    R.drawable.calendar));
+        }
         adapter.list.add(new SingleRow("File Path",
                 uri,
                 R.drawable.image));
         adapter.list.add(new SingleRow("Unique ID",
-                fileID,
+                fileID+"",
                 R.drawable.alert));
 
         ListView listView = (ListView) findViewById(R.id.details_listView);
@@ -59,6 +83,23 @@ public class DetailsActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private String readJSON(Context context, String fileName) {
+        try {
+            FileInputStream fis = context.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while((line=br.readLine()) != null) {
+                sb.append(line);
+            }
+            return sb.toString();
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 
