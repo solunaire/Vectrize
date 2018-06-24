@@ -88,7 +88,7 @@ public class DetailsActivity extends AppCompatActivity {
 //            adapter.list.add(new SingleRow("Background",
 //                    background,
 //                    R.drawable.color_lens));
-            adapter.list.add(new SingleRow("Transparency",
+            adapter.list.add(new SingleRow("Opacity",
                     alpha+"",
                     R.drawable.opacity));
         }
