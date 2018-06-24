@@ -40,7 +40,9 @@ public class DetailsActivity extends AppCompatActivity {
 
         String uri = getIntent().getStringExtra("uri");
         DetailAdapter adapter = new DetailAdapter(this);
-        String date="";
+        String date="", background = "";
+        int alpha=-1, repeat=-1, count=-1, shapes=-1;
+        boolean foundObject = false;
         long fileID;
 
         int dashCut = uri.lastIndexOf('-');
@@ -55,6 +57,13 @@ public class DetailsActivity extends AppCompatActivity {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 if(obj.getLong("ID") == fileID) {
                     date = obj.getString("date");
+                    alpha = obj.getInt("alpha");
+                    repeat = obj.getInt("repeat");
+                    count = obj.getInt("count");
+                    shapes = obj.getInt("shapes");
+                    //TODO: Fix background
+                    //background = obj.getString("background");
+                    foundObject = true;
                     break;
                 }
             }
@@ -70,6 +79,20 @@ public class DetailsActivity extends AppCompatActivity {
         adapter.list.add(new SingleRow("File Path",
                 uri,
                 R.drawable.image));
+
+        if(foundObject) {
+            adapter.list.add(new SingleRow("Total Number of Shapes",
+                    shapes+"",
+                    R.drawable.shape));
+            //TODO: Fix background
+//            adapter.list.add(new SingleRow("Background",
+//                    background,
+//                    R.drawable.color_lens));
+            adapter.list.add(new SingleRow("Transparency",
+                    alpha+"",
+                    R.drawable.opacity));
+        }
+
         adapter.list.add(new SingleRow("Unique ID",
                 fileID+"",
                 R.drawable.alert));
