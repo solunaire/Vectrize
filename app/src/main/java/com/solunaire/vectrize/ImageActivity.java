@@ -327,8 +327,6 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void parseJSON(String JSON, long ID) {
-        System.out.println(JSON);
-
         //write to JSON File
         try {
             JSONArray jsonArray = new JSONArray(JSON);
@@ -348,8 +346,6 @@ public class ImageActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            System.out.println(jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
