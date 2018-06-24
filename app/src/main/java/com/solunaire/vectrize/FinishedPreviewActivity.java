@@ -47,6 +47,11 @@ public class FinishedPreviewActivity extends AppCompatActivity {
     private static final String DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
     private static final String fileName = "details.json";
 
+    String emptyJSON = "[ ]";
+
+    int inputSize, outputSize, count, mode, alpha, repeat;
+    String background;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,13 +119,13 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
                     System.out.println(path);
 
-                    int inputSize = intent.getExtras().getInt("inputSize");
-                    int outputSize = intent.getExtras().getInt("outputSize");
-                    int count = intent.getExtras().getInt("count");
-                    int mode = intent.getExtras().getInt("mode");
-                    String background = intent.getExtras().getString("background");
-                    int alpha = intent.getExtras().getInt("alpha");
-                    int repeat = intent.getExtras().getInt("repeat");
+                    inputSize = intent.getExtras().getInt("inputSize");
+                    outputSize = intent.getExtras().getInt("outputSize");
+                    count = intent.getExtras().getInt("count");
+                    mode = intent.getExtras().getInt("mode");
+                    background = intent.getExtras().getString("background");
+                    alpha = intent.getExtras().getInt("alpha");
+                    repeat = intent.getExtras().getInt("repeat");
                     Primitivemobile.processImage(path,inputSize,outputSize,count,mode,background,alpha,repeat,file.getAbsolutePath());
                 }
             }).start();
@@ -169,14 +174,12 @@ public class FinishedPreviewActivity extends AppCompatActivity {
                     stream.flush();
                     stream.close();
 
+                    //Find Unique Image ID
                     int cutDash = file.getPath().lastIndexOf('-');
                     int cutDot = file.getPath().lastIndexOf('.');
                     long ID = Long.parseLong(file.getPath().substring(cutDash + 1, cutDot));
 
                     Date date = new Date(System.currentTimeMillis());
-
-                    //Records Data into JSON File
-                    String emptyJSON = "[ ]";
 
                     //checks to see if details.json exists
                     String path = FinishedPreviewActivity.this.getFilesDir().getAbsolutePath() + "/" + fileName;
@@ -235,6 +238,11 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             JSONObject current = new JSONObject();
             current.put("ID", ID);
             current.put("date", date);
+            current.put("alpha", alpha);
+            current.put("repeat", repeat+1);
+            current.put("background", background);
+            current.put("count", count);
+            current.put("shapes", count*(repeat+1));
             jsonArray.put(current);
 
             try {
@@ -265,6 +273,17 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         } catch(IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    //method purely for development purposes only
+    private void clearJSON() {
+        try {
+            FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fos.write(emptyJSON.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
