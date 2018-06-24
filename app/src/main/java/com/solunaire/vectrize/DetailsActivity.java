@@ -24,8 +24,6 @@ import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/primitive/";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,6 @@ public class DetailsActivity extends AppCompatActivity {
         DetailAdapter adapter = new DetailAdapter(this);
         String date = "Month 00, 2000 at 00:00 AM", fileID;
 
-        int cut = uri.lastIndexOf('/');
         int dashCut = uri.lastIndexOf('-');
         int dotCut = uri.lastIndexOf('.');
         fileID = uri.substring(dashCut+1, dotCut);

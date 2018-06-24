@@ -1,5 +1,6 @@
 package com.solunaire.vectrize;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,16 +22,30 @@ import android.widget.ProgressBar;
 
 import com.pixplicity.sharp.Sharp;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import primitivemobile.Primitivemobile;
 
 public class FinishedPreviewActivity extends AppCompatActivity {
 
     private static final String DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/primitive";
+    private static final String fileName = "details.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,8 +155,8 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Saves Image as New Image with New Number (similar to hashing)
                 try {
+                    //Saves Image as New Image with New Number (similar to hashing)
                     File file = File.createTempFile("Primitive-",".jpg",new File(DIR));
                     OutputStream stream = new FileOutputStream(file);
 
@@ -153,6 +168,44 @@ public class FinishedPreviewActivity extends AppCompatActivity {
 
                     stream.flush();
                     stream.close();
+
+                    int cutDash = file.getPath().lastIndexOf('-');
+                    int cutDot = file.getPath().lastIndexOf('.');
+                    long ID = Long.parseLong(file.getPath().substring(cutDash + 1, cutDot));
+
+                    Date date = new Date(System.currentTimeMillis());
+
+                    //Records Data into JSON File
+                    String emptyJSON = "[ ]";
+
+                    //checks to see if details.json exists
+                    String path = FinishedPreviewActivity.this.getFilesDir().getAbsolutePath() + "/" + fileName;
+                    File jsonFile = new File(path);
+                    boolean isFilePresent = jsonFile.exists();
+
+                    if(isFilePresent) { //if details.json exists
+                        String jsonString = read(FinishedPreviewActivity.this, fileName);
+                        parseJSON(jsonString, ID, date.toString());
+                    } else { //create details.json
+                        //try to create file
+                        boolean isFileCreated;
+                        try {
+                            FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+                            fos.write(emptyJSON.getBytes());
+                            fos.close();
+                            isFileCreated = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            isFileCreated = false;
+                        }
+
+                        if(isFileCreated) { //if creating file successful
+                            parseJSON(emptyJSON, ID, date.toString());
+                        } else {
+                            System.err.println("Unable to create JSON");
+                            Toast.makeText(FinishedPreviewActivity.this, "Unable to create details file", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
                     Uri savedImageURI = Uri.parse(file.getAbsolutePath());
                     Toast.makeText(FinishedPreviewActivity.this, "Image saved in internal storage.\n" + savedImageURI, Toast.LENGTH_SHORT).show();
@@ -171,5 +224,47 @@ public class FinishedPreviewActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void parseJSON(String JSON, long ID, String date) {
+        System.out.println(JSON);
+
+        //write to JSON File
+        try {
+            JSONArray jsonArray = new JSONArray(JSON);
+            JSONObject current = new JSONObject();
+            current.put("ID", ID);
+            current.put("date", date);
+            jsonArray.put(current);
+
+            try {
+                FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+                fos.write(jsonArray.toString().getBytes());
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String read(Context context, String fileName) {
+        try {
+            FileInputStream fis = context.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while((line=br.readLine()) != null) {
+                sb.append(line);
+            }
+            return sb.toString();
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
