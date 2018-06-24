@@ -1,5 +1,6 @@
 package com.solunaire.vectrize;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -31,7 +32,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class ImageActivity extends AppCompatActivity {
@@ -43,6 +53,7 @@ public class ImageActivity extends AppCompatActivity {
     public ArrayList<ImageModel> data = new ArrayList<>();
     int pos; //current index of image in RecyclerView (and therefore data)
     static boolean toFinish = false;
+    private static String fileName = "details.json";
 
     Toolbar toolbar;
 
@@ -268,6 +279,21 @@ public class ImageActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         Uri currUri = Uri.parse(data.get(pos).getUrl());
                         File fdelete = new File(currUri.getPath());
+
+                        //Find Unique Image ID
+                        int cutDash = fdelete.getPath().lastIndexOf('-');
+                        int cutDot = fdelete.getPath().lastIndexOf('.');
+                        long ID = Long.parseLong(fdelete.getPath().substring(cutDash + 1, cutDot));
+
+                        String path = ImageActivity.this.getFilesDir().getAbsolutePath() + "/" + fileName;
+                        File jsonFile = new File(path);
+                        boolean isFilePresent = jsonFile.exists();
+
+                        if(isFilePresent) { //if details.json exists
+                            String jsonString = read(ImageActivity.this, fileName);
+                            parseJSON(jsonString, ID);
+                        }
+
                         if (fdelete.exists()) {
                             if (fdelete.delete()) {
                                 data.remove(pos);
@@ -298,5 +324,51 @@ public class ImageActivity extends AppCompatActivity {
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void parseJSON(String JSON, long ID) {
+        System.out.println(JSON);
+
+        //write to JSON File
+        try {
+            JSONArray jsonArray = new JSONArray(JSON);
+            JSONObject current;
+            for(int i = 0; i < jsonArray.length(); i++) {
+                current = jsonArray.getJSONObject(i);
+                if(current.getLong("ID") == ID) {
+                    jsonArray.remove(i);
+                    break;
+                }
+            }
+
+            try {
+                FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+                fos.write(jsonArray.toString().getBytes());
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println(jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String read(Context context, String fileName) {
+        try {
+            FileInputStream fis = context.openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while((line=br.readLine()) != null) {
+                sb.append(line);
+            }
+            return sb.toString();
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
