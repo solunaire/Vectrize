@@ -97,10 +97,6 @@ public class DetailsActivity extends AppCompatActivity {
                     R.drawable.opacity));
         }
 
-        adapter.list.add(new SingleRow("Unique ID",
-                fileID+"",
-                R.drawable.alert));
-
         ListView listView = (ListView) findViewById(R.id.details_listView);
         listView.setAdapter(adapter);
         listView.setDivider(null);
