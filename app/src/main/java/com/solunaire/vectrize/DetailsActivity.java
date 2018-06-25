@@ -40,7 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         String uri = getIntent().getStringExtra("uri");
         DetailAdapter adapter = new DetailAdapter(this);
-        String date="", background = "";
+        String date = "", background = "", mode = "";
         int alpha=-1, repeat=-1, count=-1, shapes=-1;
         boolean foundObject = false;
         long fileID;
@@ -60,6 +60,7 @@ public class DetailsActivity extends AppCompatActivity {
                     alpha = obj.getInt("alpha");
                     repeat = obj.getInt("repeat");
                     count = obj.getInt("count");
+                    mode = obj.getString("mode");
                     shapes = obj.getInt("shapes");
                     //TODO: Fix background
                     //background = obj.getString("background");
@@ -81,9 +82,12 @@ public class DetailsActivity extends AppCompatActivity {
                 R.drawable.image));
 
         if(foundObject) {
+            adapter.list.add(new SingleRow("Shape Type",
+                    mode,
+                    R.drawable.shape));
             adapter.list.add(new SingleRow("Total Number of Shapes",
                     shapes+"",
-                    R.drawable.shape));
+                    R.drawable.numeric));
             //TODO: Fix background
 //            adapter.list.add(new SingleRow("Background",
 //                    background,

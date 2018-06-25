@@ -234,9 +234,13 @@ public class FinishedPreviewActivity extends AppCompatActivity {
         try {
             JSONArray jsonArray = new JSONArray(JSON);
             JSONObject current = new JSONObject();
+
+            String modeS = getResources().getStringArray(R.array.shapes_spinner_array)[mode-1];
+
             current.put("ID", ID);
             current.put("date", date);
             current.put("alpha", alpha);
+            current.put("mode", modeS);
             current.put("repeat", repeat+1);
             current.put("background", background);
             current.put("count", count);
