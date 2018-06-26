@@ -3,7 +3,6 @@ package com.solunaire.vectrize;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,7 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +39,6 @@ import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
 import static android.content.pm.PackageManager.PERMISSION_DENIED;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -103,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                                Intent intent = new Intent(MainActivity.this, ImageActivity.class);
                                 ArrayList<ImageModel> data = new ArrayList<>();
                                 //Add images & data into Arraylist of type ImageModel
                                 for (int i = 0; i < galleryList.size(); i++) {
@@ -431,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openRecentImage() {
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
         galleryList = prepareData();
         ArrayList<ImageModel> data = new ArrayList<>();
         //Add images & data into Arraylist of type ImageModel

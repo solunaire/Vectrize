@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Vectrize</string>
+    <string name="details">Details</string>
+
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
     <string name="action_licenses">Licenses</string>
@@ -7,12 +9,11 @@
     <string name="action_share">Share</string>
     <string name="action_details">Details</string>
     <string name="action_delete">Delete</string>
-    <string name="title_activity_detail">DetailActivity</string>
     <string name="take_picture">Take Picture</string>
 
     <string name="other_image">Choose Another Image</string>
     <string name="reset_defaults">Reset to Default Values</string>
-    <string name="shape_alpha">Transparency</string>
+    <string name="shape_alpha">Opacity</string>
     <string name="stroke_width">Stroke Width</string>
     <string name="shapes_iteration">Shapes Per Iteration</string>
     <string name="background_color">Background Color</string>
@@ -36,11 +37,12 @@
     <string name="image_preview_descr">Preview of Image to Vectorize</string>
     <string name="modal_save_hint">File Name</string>
 
+    <string name="default_text">Default Text</string>
+
     <string name="error_field_required">This Field is Required</string>
     <string name="number_field_required">Pleast Enter an Integer Between 1&#8211;999</string>
 
     <string-array name="shapes_spinner_array">
-
         <item>Triangles</item>
         <item>Rectangles</item>
         <item>Ellipses</item>
@@ -63,12 +65,26 @@
     Vectrize was built by Jordan Buchman and Rahul Krishnan of Solunaire.</string>
     <string name="licenses">Licenses</string>
     <string-array name="licenses">
-        <item>Primitive</item>          <item>MIT License</item>            <item>https://github.com/fogleman/primitive/blob/master/LICENSE.md</item>
-        <item>FAB Speed Dial</item>     <item>Apache License 2.0</item>     <item>https://github.com/yavski/fab-speed-dial/blob/master/LICENSE</item>
-        <item>Glide</item>              <item>Apache License 2.0</item>     <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
-        <item>PhotoView</item>          <item>Apache License 2.0</item>     <item>https://github.com/chrisbanes/PhotoView/blob/master/LICENSE</item>
-        <item>Discrete SeekBar</item>   <item>Apache License 2.0</item>     <item>https://github.com/AnderWeb/discreteSeekBar/blob/master/LICENSE</item>
-        <item>Color Picker</item>       <item>Apache License 2.0</item>     <item>https://github.com/QuadFlask/colorpicker</item>
-        <item>Sharp</item>              <item>Apache License 2.0</item>     <item>https://github.com/Pixplicity/sharp/blob/master/LICENSE</item>
+        <item>Primitive</item>
+        <item>MIT License</item>
+        <item>https://github.com/fogleman/primitive/blob/master/LICENSE.md</item>
+        <item>FAB Speed Dial</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/yavski/fab-speed-dial/blob/master/LICENSE</item>
+        <item>Glide</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/bumptech/glide/blob/master/LICENSE</item>
+        <item>PhotoView</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/chrisbanes/PhotoView/blob/master/LICENSE</item>
+        <item>Discrete SeekBar</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/AnderWeb/discreteSeekBar/blob/master/LICENSE</item>
+        <item>Color Picker</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/QuadFlask/colorpicker</item>
+        <item>Sharp</item>
+        <item>Apache License 2.0</item>
+        <item>https://github.com/Pixplicity/sharp/blob/master/LICENSE</item>
     </string-array>
 </resources>
